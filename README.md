@@ -27,8 +27,7 @@ The output of the code is the catalogue including the physical properties and th
     
  
 **Requirements**
-FORECAST is a robust and flexible code. 
-It is written in C and C++; it is supported by independent libraries to make the code more readable and user-friendly. 
+FORECAST is written in C and C++; it is supported by independent libraries to make the code more readable and user-friendly. 
 It requires the following C/C++ standard libraries: GSL {https://www.gnu.org/software/gsl/}{gsl},  openBLAS {https://www.openblas.net/}, LAPACK  {http://www.netlib.org/lapack/}, CCfits {https://heasarc.gsfc.nasa.gov/fitsio/CCfits/},  CFITSIO {https://heasarc.gsfc.nasa.gov/fitsio/}, FFTW {https://www.fftw.org/},  Eigen {https://eigen.tuxfamily.org/},  Armadillo {http://arma.sourceforge.net/},  H5Cpp {http://h5cpp.org/}, HDF5 C++ {https://www.hdfgroup.org/} and a gcc compiler.   
 In the input configuration file of the code, the user chooses the image simulation parameters (e.g., the dimension of the FoV, the filters, the hydrodynamical simulation.  
    The code requires the input files of the chosen hydrodynamical simulation to build the light-cone and produce the final images. The data products of the numerous currently available simulations are organized differently, changing from one to another simulation, and are stored with different formats; as example IllustrisTNG stores a single snapshot in multiple \texttt{.hdf5} files, while in the \textsc{eagle} simulation \citep{eagle15} the snapshots are available for public download via an SQL web interface. Thus, the code requires these data products to be uniformed in a specific format, in order to be easily read and processed.   
