@@ -19,7 +19,7 @@ The FORECAST code is built in four modules: lc, df, dc, igm (stand for: lightcon
     Two additional independent scripts, written in python, are made available (i) to build the galaxy catalogue, in ASCII format, from the particle catalogue given in output by FORECAST; (ii) to post-process the FORECAST images with our noise and PSF pipeline.
 
 **Input file format**
-----
+To be written
 
 **Configuration file .ini**
 FORECAST is adaptable to the choices of the user by selecting a set of input parameters. 
