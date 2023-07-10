@@ -1,8 +1,11 @@
 # FORECAST
-*The text is extracted from Fortuni et al. subm. from the Author*
+*The text is extracted from Fortuni et al. 2023*
 
-FORECAST is a new flexible and adaptable software package that performs forward modeling of the output of any cosmological hydrodynamical simulations to create a wide range of realistic synthetic astronomical images, thus providing a robust foundation for accurate comparison with observational data. With customizable options for filters, field of view size and survey parameters, it allows users to tailor the synthetic images to their specific requirements.
-    FORECAST constructs a light-cone centered on the observer's position exploiting the output snapshots of a simulation and computes the observed flux of each simulated stellar element, modeled as a Single Stellar Population, in any chosen set of pass-band filters, including k-correction, IGM absorption and dust attenuation. These fluxes are then used to create an image on a grid of pixels, to which observational features such as background noise and PSF blurring can be added. This allows to obtain simulated galaxies with realistic morphologies and star formation histories.
+FORECAST is a new flexible and adaptable software package that performs forward modeling of the output of any cosmological hydrodynamical simulations to create a wide range of realistic synthetic astronomical images. With customizable options for filters, size of the field of view and survey parameters, it allows users to tailor the synthetic images to their specific requirements.
+
+    
+**In few words**
+FORECAST constructs a light-cone centered on the observer's position exploiting the output snapshots of a simulation and computes the observed flux of each simulated stellar element, modeled as a Single Stellar Population, in any chosen set of pass-band filters, including k-correction, IGM absorption and dust attenuation. These fluxes are then used to create an image on a grid of pixels, to which observational features such as background noise and PSF blurring can be added. This allows to obtain simulated galaxies with realistic morphologies and star formation histories.
 
 
 **Pipeline**
@@ -14,6 +17,9 @@ The FORECAST code is built in four modules: lc, df, dc, igm (stand for: lightcon
     (igm) The final module adds the IGM correction to dust-corrected fluxes, producing the final output catalogue, which includes the physical properties of the stellar particles and their corrected fluxes, and the mean properties of the gas   
     An independent C++ script handles the arrangement of the fluxes on a grid of pixels with Npix-per-side chosen by the user.   
     Two additional independent scripts, written in python, are made available (i) to build the galaxy catalogue, in ASCII format, from the particle catalogue given in output by FORECAST; (ii) to post-process the FORECAST images with our noise and PSF pipeline.
+
+**Input file format**
+----
 
 **Configuration file .ini**
 FORECAST is adaptable to the choices of the user by selecting a set of input parameters. 
