@@ -5,7 +5,7 @@ FORECAST is a new flexible and adaptable software package that performs forward 
 
     
 **In few words**
-FORECAST constructs a light-cone centered on the observer's position exploiting the output snapshots of a simulation and computes the observed flux of each simulated stellar element, modeled as a Single Stellar Population, in any chosen set of pass-band filters, including k-correction, IGM absorption and dust attenuation. These fluxes are then used to create an image on a grid of pixels, to which observational features such as background noise and PSF blurring can be added. This allows to obtain simulated galaxies with realistic morphologies and star formation histories.
+FORECAST constructs a light-cone centered on the observer's position exploiting the output snapshots of a simulation and computes the observed flux of each simulated stellar element, modeled as a Single Stellar Population, in any chosen set of pass-band filters, including k-correction, IGM absorption and dust attenuation. These fluxes are then used to create an image on a grid of pixels, to which observational features such as background noise and PSF blurring can be added with our Python script for the post-processing of the images.
 
 
 **Pipeline**
