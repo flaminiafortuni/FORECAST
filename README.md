@@ -73,3 +73,23 @@ The output of the code is the catalogue including the physical properties and th
 ## Contributing
 
 ## Citation and Acknowledgment
+
+When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). The paper has been submitted to A&A; we will update this section.
+
+```@ARTICLE{2023arXiv230519166F,
+       author = {{Fortuni}, Flaminia and {Merlin}, Emiliano and {Fontana}, Adriano and {Giocoli}, Carlo and {Romelli}, Erik and {Graziani}, Luca and {Santini}, Paola and {Castellano}, Marco and {Charlot}, St{\'e}phane and {Chevallard}, Jacopo},
+        title = "{FORECAST: a flexible software to forward model cosmological hydrodynamical simulations mimicking real observations}",
+      journal = {arXiv e-prints},
+     keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Astrophysics - Astrophysics of Galaxies, 85},
+         year = 2023,
+        month = may,
+          eid = {arXiv:2305.19166},
+        pages = {arXiv:2305.19166},
+          doi = {10.48550/arXiv.2305.19166},
+archivePrefix = {arXiv},
+       eprint = {2305.19166},
+ primaryClass = {astro-ph.IM},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
