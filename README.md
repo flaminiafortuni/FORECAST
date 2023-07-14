@@ -1,5 +1,6 @@
 # FORECAST
-FORECAST is a new flexible and adaptable software package that performs forward modeling of the output of any cosmological hydrodynamical simulations to create a wide range of realistic synthetic astronomical images. With customizable options for filters, size of the field of view and survey parameters, it allows users to tailor the synthetic images to their specific requirements.
+FORECAST is a new software package that generates realistic astronomical images and galaxy surveys by forward modeling the output snapshot of any hydrodynamical cosmological simulation.
+With customizable options for filters, size of the field of view and survey parameters, it allows users to tailor the synthetic images to their specific research requirements.
 
 ### Table of Contents
 1. [In few words](#in-few-words)
