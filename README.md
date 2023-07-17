@@ -16,18 +16,21 @@ With customizable options for filters, size of the field of view and survey para
 
     
 ## In few words
-FORECAST constructs a light-cone centered on the observer's position exploiting the output snapshots of a simulation and computes the observed flux of each simulated stellar element, modeled as a Single Stellar Population, in any chosen set of pass-band filters, including k-correction, IGM absorption and dust attenuation. These fluxes are then used to create an image on a grid of pixels, to which observational features such as background noise and PSF blurring can be added with our Python script for the post-processing of the images.
+FORECAST constructs a light-cone centered on the observer's position exploiting the output snapshots of a simulation and computes the observed flux of each simulated stellar element, modeled as a Single Stellar Population (SSP), in any chosen set of pass-band filters, including k-correction, IGM absorption and dust attenuation. These fluxes are then used to create an image on a grid of pixels, to which observational features such as background noise and PSF blurring can be added with our Python script for the post-processing of the images.
 
 
 ## Pipeline
-The FORECAST code is built in four modules: lc, df, dc, igm (stand for: lightcone construction module; dust-free module; dust-corrected module; igm module). The architecture of each module is not intrinsically parallel (e.g., it doesn't exploit MPI protocols), but it has been designed to allow the user to independently run it on multiple snapshots to realize multiple light-cone partitions (chunks of the cone) simultaneously.
-    Each module is dependent from the output of the previous module, and the first and the third module need the input file of the hydrodynamical simulations to extract the properties of the simulated stellar and gas resolution elements.
-    (lc) The first module handles the construction of the light-cone, exploiting the data products of a chosen hydrodynamical simulation. In output, it produces an ASCII file containing the properties of the SSPs included in the FoV (IDs, coordinates, redshift and physical properties), which is used as input file for the next module. This step might be skipped if a user already has their light-cone, as long as the input file for the next module is written in the proper format. 
-    (df) The second module computes the dust-free flux of each SSPs included in the FoV. It assembles an ASCII file with the properties of the star particles and their dust-free fluxes in chosen filters.
-    (dc) The third module addresses the computation of dust-corrected fluxes and it requires the data products of the hydrodynamical simulation to extract the properties of gas resolution elements belonging to the sources included in the FoV. In output it is given the same file produced by the previous module, also including dust-corrected fluxes for stellar particles and the gas mass-weighted mean of the gas metallicity and the neutral hydrogen column density. 
-    (igm) The final module adds the IGM correction to dust-corrected fluxes, producing the final output catalogue, which includes the physical properties of the stellar particles and their corrected fluxes, and the mean properties of the gas   
-    An independent C++ script handles the arrangement of the fluxes on a grid of pixels with Npix-per-side chosen by the user.   
-    Two additional independent scripts, written in python, are made available (i) to build the galaxy catalogue, in ASCII format, from the particle catalogue given in output by FORECAST; (ii) to post-process the FORECAST images with our noise and PSF pipeline.
+The FORECAST code, currently available in *beta* version, is structured into four interconnected modules, where each module relies on the output of the previous one. The first and third modules require the input file from the snapshots of hydrodynamical simulation to extract relevant properties of the simulated stellar and gas resolution elements.
+
+The architecture of each module is not intrinsically parallel (e.g., it doesn't exploit MPI protocols), but it has been designed to allow the user to independently run it on multiple snapshots to realize multiple light-cone partitions (chunks of the cone) simultaneously.
+Each module is dependent from the output of the previous module, and the first and the third module need the input file of the hydrodynamical simulations to extract the properties of the simulated stellar and gas resolution elements.
+* [lightcone](lc) The first module handles the construction of the light-cone, exploiting the data products of a chosen hydrodynamical simulation. In output, it produces an ASCII file containing the properties of the SSPs included in the field of view (IDs, coordinates, redshift and physical properties), which is used as input file for the next module. This step might be skipped if a user already has their light-cone, as long as the input file for the next module is written in the proper format. 
+* [dust-free](df) The second module computes the flux of each SSP within the field of view, applying k-correction. It takes as input the catalogue generated in the previous step. It generates an ASCII file containing the properties of the star particles and their dust-free fluxes in the selected filters.
+* [dust-corrected](dc) The third module addresses the computation of the dust attenuation caused by dust distributed in and around each galaxy. This attenuation is traced by gas resolution elements included in the hydrodynamical simulation, providing the necessary data to calculate the dust attenuation effects (gas metallicity and neutral hydrogen column density). The module relies on data products from the hydrodynamical simulation to extract gas properties; it also takes as input the catalogue generated in the previous step. As output, it generates an ASCII file containing the properties of the star particles and their dust-corrected fluxes in the selected filters.
+* [IGM](igm) The final module adds the IGM correction to dust-corrected fluxes, taking as input the catalogue generated in the previous step and producing the final output catalogue, which includes the physical properties of the stellar particles and their corrected fluxes.
+### Post-processing scripts
+An independent C++ script handles the arrangement of the fluxes on a grid of pixels with Npix-per-side chosen by the user.   
+Two additional independent scripts, written in python, are made available (i) to build the galaxy catalogue, in ASCII format, from the particle catalogue given in output by FORECAST; (ii) to post-process the FORECAST images with our noise and PSF pipeline.
 
 ## Requirements
 FORECAST is written in C and C++; it is supported by independent libraries to make the code more readable and user-friendly. 
@@ -42,12 +45,7 @@ It requires the following C/C++ standard libraries:
 * [Armadillo](http://arma.sourceforge.net/)
 * [H5Cpp](http://h5cpp.org/)
 * [HDF5 C++](https://www.hdfgroup.org/)
-* gcc compiler.
-  
-In the input configuration file of the code, the user chooses the image simulation parameters (e.g., the dimension of the FoV, the filters, the hydrodynamical simulation.  
-   The code requires the input files of the chosen hydrodynamical simulation to build the light-cone and produce the final images. The data products of the numerous currently available simulations are organized differently, changing from one to another simulation, and are stored with different formats; as example IllustrisTNG stores a single snapshot in multiple \texttt{.hdf5} files, while in the \textsc{eagle} simulation \citep{eagle15} the snapshots are available for public download via an SQL web interface. Thus, the code requires these data products to be uniformed in a specific format, in order to be easily read and processed.   
-      
-   We release a beta version of the code, which can be read and improved by the scientific community with a request for access to its source through our website, at {www.astrodeep.eu/FORECAST}.
+* gcc compiler.      
 
 ## Configuration file
 FORECAST is adaptable to the choices of the user by selecting a set of input parameters. 
