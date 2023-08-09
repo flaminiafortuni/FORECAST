@@ -92,7 +92,7 @@ The output of the code is the catalog including the physical properties and the 
 
 ## Citation and Acknowledgment
 
-When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). The paper has been submitted to A&A; we will update this section.
+When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). The paper has been accepted for publication in Astronomy&Astrophysics; we will update this section.
 
 ```@ARTICLE{2023arXiv230519166F,
        author = {{Fortuni}, Flaminia and {Merlin}, Emiliano and {Fontana}, Adriano and {Giocoli}, Carlo and {Romelli}, Erik and {Graziani}, Luca and {Santini}, Paola and {Castellano}, Marco and {Charlot}, St{\'e}phane and {Chevallard}, Jacopo},
