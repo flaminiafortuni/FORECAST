@@ -54,7 +54,7 @@ In particular, it is possible to choose the hydrodynamical simulation that provi
 
 
 ## Input files format
-FORECAST works by taking as input the physical properties of stellar particles and gas cells recorded in each snapshot of the chosen simulation. Currently, 
+FORECAST works by taking as input the physical properties of stellar particles and gas cells recorded in each snapshot of the chosen simulation. Currently, the code reads input files in the _IllustrisTNG_ format. Users are required to convert their data into the TNG format (*.hdf5* files with the same column names as TNG columns) to ensure the effective utilization of the code. Future updates to the code will include additional scripts to read input files from multiple hydrodynamical simulations in different formats, such as the EAGLE Project \citep{sch15} and the Simba Simulation \citep{simba19} data products. 
 
 For stellar particles (" _PartType4_ ") 
 - " _Coordinates_ " x,y,z-comoving coordinates within the simulated volume, in ckpc
