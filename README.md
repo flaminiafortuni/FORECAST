@@ -54,9 +54,9 @@ In particular, it is possible to choose the hydrodynamical simulation that provi
 
 
 ## Input files format
-FORECAST works by taking as input the physical properties of stellar particles and gas cells recorded in each snapshot of the chosen simulation. Currently, the code reads input files in the _IllustrisTNG_ format. Users are required to convert their data into the TNG format (*.hdf5* files with the same column names as TNG columns) to ensure the effective utilization of the code. Future updates to the code will include additional scripts to read input files from multiple hydrodynamical simulations in different formats, such as the EAGLE Project \citep{sch15} and the Simba Simulation \citep{simba19} data products. 
+FORECAST works by taking as input the physical properties of stellar particles and gas cells recorded in each snapshot of the chosen simulation. Currently, the code reads input files in the _IllustrisTNG_ format. Users are required to convert their data into the TNG format (*.hdf5 files with the same column names as TNG columns) to ensure the effective utilization of the code. Future updates to the code will include additional scripts to read input files from multiple hydrodynamical simulations in different formats, such as [the EAGLE Project](https://ui.adsabs.harvard.edu/abs/2015MNRAS.446..521S/abstract) and [the Simba Simulation](https://ui.adsabs.harvard.edu/abs/2019MNRAS.486.2827D/abstract) data products. 
 
-For stellar particles (" _PartType4_ ") 
+For stellar particles (" _PartType4_ "), FORECAST requires:
 - " _Coordinates_ " x,y,z-comoving coordinates within the simulated volume, in ckpc
 - " _Masses_ " stellar mass, in $M_{\odot}$
 - " _InitialMass_ " initial stellar mass, in $M_{\odot}$
@@ -73,7 +73,7 @@ For gas cells (" _PartType0_ "):
 - " _InternalEnergy_ " gas cell internal (thermal) energy per unit mass $u$, needed to derive the neutral hydrogen column density
 - " cell subhalo membership ID " same as for stellar particles
 
-For the exact descriptions of the fields, please refer to * [IllustrisTNG/DataSpecification]([https://heasarc.gsfc.nasa.gov/fitsio/](https://www.tng-project.org/data/docs/specifications/#parttype0)).
+For the exact descriptions of the fields, please refer to [IllustrisTNG/DataSpecification](https://www.tng-project.org/data/docs/specifications/#parttype0).
 
 ## Output description
 The output of the code is the catalog including the physical properties and the true fluxes of the simulated stellar particles. It is used to build the galaxy catalog.
