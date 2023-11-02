@@ -1,0 +1,650 @@
+/*
+ * @file src/ReadTNGPartcle.cpp
+ * @date 25/09/20
+ * @author Erik Romelli - INAF-OATs
+ */
+
+#include <vector>
+#include <iostream>
+#include "/usr/include/hdf5/serial/H5Cpp.h"
+#include </usr/include/eigen3/Eigen/Dense>
+
+
+#include "readTNGParticle.h"
+//using namespace H5;
+using namespace std;
+
+
+void readTNGParticle::Initialize(std::string workdir, int particleID){
+
+  snapNameTemplate = workdir+"/snapdir_0"+std::to_string(particleID)+"/snap_0"+std::to_string(particleID);
+  fofNameTemplate = workdir+"/groups_0"+std::to_string(particleID)+"/fof_subhalo_tab_0"+std::to_string(particleID);
+
+  offsetFileName = workdir+"/offsets_0"+std::to_string(particleID)+".hdf5";
+
+} // Initialize END
+
+template <class T>  T readTNGParticle::getHeaderValue(std::string keyword){
+
+  T tmp;
+  H5::Attribute attr = snapHeader.openAttribute(keyword);
+  H5::DataType attrType = attr.getDataType();
+  attr.read(attrType, &tmp);
+
+  return tmp;
+
+} // getHeaderValue END
+
+
+template <class T>  std::vector<T> readTNGParticle::getHeaderValueNonScalar(std::string keyword){
+
+  // std::vector<T> tmp(6,0.);
+  T tmpArray[6];
+  H5::Attribute attr = snapHeader.openAttribute(keyword);
+  H5::DataType attrType = attr.getDataType();
+  attr.read(attrType, &tmpArray);
+
+  // Trick to convert array to std::vector
+  int n = sizeof(tmpArray)/sizeof(tmpArray[0]);
+  std::vector<T> tmp(tmpArray, tmpArray+n);
+
+  return tmp;
+
+} // getHeaderValueNonScalar END
+
+std::vector<double> readTNGParticle::getSnapVectorValue(std::string keyword){
+
+  H5::DataSet dataset = snapStars.openDataSet(keyword);
+  H5::DataSpace dataspace = dataset.getSpace();
+
+  hsize_t naxes[1];
+
+  dataspace.getSimpleExtentDims(naxes, NULL);
+  dimensionStar = static_cast<int>(naxes[0]);
+
+  std::vector<double> tmp(naxes[0], 0.);
+  dataset.read(tmp.data(), H5::PredType::NATIVE_DOUBLE);
+
+  dataset.close();
+  dataspace.close();
+  
+  return tmp;
+
+} // getSnapVectorValue END
+
+std::vector<double> readTNGParticle::getSnapVectorValue(std::string keyword, int startElement, int numElementsToRead) {
+
+  H5::DataSet dataset = snapStars.openDataSet(keyword);
+  H5::DataSpace dataspace = dataset.getSpace();
+
+  // Ottenere le dimensioni totali del dataset
+  hsize_t totalDimensions[1];
+  dataspace.getSimpleExtentDims(totalDimensions, NULL);
+ 
+  // Calcola la dimensione totale dei dati disponibili
+  int totalSize = static_cast<int>(totalDimensions[0]);
+
+  // Verifica che startElement sia all'interno dei limiti del dataset
+  if (startElement < 0 || startElement >= totalSize) {
+    // Gestire l'errore o restituire un vettore vuoto a seconda delle tue esigenze
+    std::cerr << "Errore: startElement fuori dai limiti del dataset." << std::endl;
+    return std::vector<double>();
+  }
+
+  hsize_t numElements[1];
+  // Calcola il numero effettivo di elementi da leggere
+  numElements[0] = (std::min(numElementsToRead, totalSize - startElement));
+ 
+  // Posiziona il dataspace per leggere il subset
+  hsize_t offset[1] = {static_cast<hsize_t>(startElement)};
+  dataspace.selectHyperslab(H5S_SELECT_SET, numElements, offset);
+ 
+  // Inizializza un vettore temporaneo per i dati
+  std::vector<double> tmp(static_cast<size_t>(numElements[0]), 0.0);
+
+  // Leggi i dati dal dataset nel vettore
+  dataset.read(tmp.data(), H5::PredType::NATIVE_DOUBLE);
+ 
+  // Chiudi il dataset e il dataspace
+  //dataset.close();
+  // dataspace.close();
+
+  return tmp;
+ 
+}
+
+
+void readTNGParticle::readCoordinates(){
+
+  H5::DataSet dataset = snapStars.openDataSet("Coordinates");
+  H5::DataSpace dataspace = dataset.getSpace();
+  hsize_t naxes[2];
+  dataspace.getSimpleExtentDims(naxes, NULL);
+
+  coordinates = Eigen::MatrixXd::Zero(naxes[1], naxes[0]);
+
+  dataset.read(coordinates.data(), H5::PredType::NATIVE_DOUBLE);
+
+  x = std::vector<double>(naxes[0], 0.);
+  y = std::vector<double>(naxes[0], 0.);
+  z = std::vector<double>(naxes[0], 0.);
+
+  for (int i = 0; i < naxes[0]; i++){
+    x[i] = coordinates(0,i);
+    y[i] = coordinates(1,i);
+    z[i] = coordinates(2,i);
+  }
+
+  dataset.close();
+  dataspace.close();
+
+} //readCoordinates END
+
+void readTNGParticle::readCoordinates(int startElement, int numElementsToRead) {
+  H5::DataSet dataset = snapStars.openDataSet("Coordinates");
+  H5::DataSpace dataspace = dataset.getSpace();
+
+  // Ottenere le dimensioni totali del dataset
+  hsize_t totalDimensions[2];
+  dataspace.getSimpleExtentDims(totalDimensions, NULL);
+
+  // Calcola la dimensione totale dei dati disponibili
+  int totalSize = static_cast<int>(totalDimensions[0]);
+
+  // Verifica che startElement sia all'interno dei limiti del dataset
+  if (startElement < 0 || startElement >= totalSize) {
+    // Gestire l'errore o uscire a seconda delle tue esigenze
+    std::cerr << "Errore: startElement fuori dai limiti del dataset." << std::endl;
+    return;
+  }
+
+  // Calcola il numero effettivo di elementi da leggere
+  int numElements = std::min(numElementsToRead, totalSize - startElement);
+
+  // Posiziona il dataspace per leggere il subset
+  hsize_t offset[2] = {static_cast<hsize_t>(startElement), 0};
+  hsize_t count[2] = {static_cast<hsize_t>(numElements), totalDimensions[1]};
+  dataspace.selectHyperslab(H5S_SELECT_SET, count, offset);
+
+  // Inizializza una matrice temporanea per i dati
+  Eigen::MatrixXd tmp(numElements, totalDimensions[1]);
+
+  // Leggi i dati dal dataset nella matrice temporanea
+  dataset.read(tmp.data(), H5::PredType::NATIVE_DOUBLE);
+
+  // Estrai i dati dai vettori x, y, z
+  x = std::vector<double>(tmp.col(0).data(), tmp.col(0).data() + numElements);
+  y = std::vector<double>(tmp.col(1).data(), tmp.col(1).data() + numElements);
+  z = std::vector<double>(tmp.col(2).data(), tmp.col(2).data() + numElements);
+
+  // Chiudi il dataset e il dataspace
+  //dataset.close();
+  //dataspace.close();
+}
+
+
+
+void readTNGParticle::readHeader(int cutID){
+
+  std::string snapFileName = snapNameTemplate + "." + std::to_string(cutID) + ".hdf5";
+  snap = H5::H5File(snapFileName, H5F_ACC_RDONLY );
+
+  // Open Header group
+  snapHeader = snap.openGroup("Header");
+
+  boxSize = readTNGParticle::getHeaderValue<double>("BoxSize");
+  omegaZero = readTNGParticle::getHeaderValue<double>("Omega0");
+  omegaLambda = readTNGParticle::getHeaderValue<double>("OmegaLambda");
+  time = readTNGParticle::getHeaderValue<double>("Time");
+  redshift = readTNGParticle::getHeaderValue<double>("Redshift");
+  massTable = readTNGParticle::getHeaderValueNonScalar<double>("MassTable");
+  numPartTotal = readTNGParticle::getHeaderValueNonScalar<int>("NumPart_Total");
+  numPartTotal_HW = readTNGParticle::getHeaderValueNonScalar<int>("NumPart_Total_HighWord");
+
+  snapHeader.close();
+
+} // readHeader END
+
+void readTNGParticle::readStars(int cutID){
+
+  std::string snapFileName = snapNameTemplate + "." + std::to_string(cutID) + ".hdf5";
+  snap = H5::H5File(snapFileName, H5F_ACC_RDONLY );
+
+  // Open Header group
+  snapStars = snap.openGroup("PartType4");
+
+  gmfMetallicity = readTNGParticle::getSnapVectorValue("GFM_Metallicity");
+  gmfInitialMass = readTNGParticle::getSnapVectorValue("GFM_InitialMass");
+  gmfStellarFormationTime = readTNGParticle::getSnapVectorValue("GFM_StellarFormationTime");
+  masses = readTNGParticle::getSnapVectorValue("Masses");
+  readTNGParticle::readCoordinates();
+
+  snapStars.close();
+
+} // readStars END
+
+void readTNGParticle::openStars(int cutID) {
+    std::string snapFileName = snapNameTemplate + "." + std::to_string(cutID) + ".hdf5";
+    snap = H5::H5File(snapFileName, H5F_ACC_RDONLY);
+    snapStars = snap.openGroup("PartType4");
+}
+
+void readTNGParticle::readStars(int startElement, int numElements) {
+  cout << "enter read" << endl;
+  // Leggi solo il subset richiesto di dati stellari
+  gmfMetallicity = getSnapVectorValue("GFM_Metallicity", startElement, numElements);
+  cout << "met" << endl;
+  gmfInitialMass = readTNGParticle::getSnapVectorValue("GFM_InitialMass", startElement, numElements);
+  gmfStellarFormationTime = readTNGParticle::getSnapVectorValue("GFM_StellarFormationTime",  startElement, numElements);
+  masses = readTNGParticle::getSnapVectorValue("Masses",  startElement, numElements);
+  cout << "up to masses" << endl;
+  readTNGParticle::readCoordinates( startElement, numElements);
+  cout << "exit read " << endl;
+}
+
+void readTNGParticle::closeStars() {
+    snapStars.close();
+    snap.close();
+}
+
+
+void readTNGParticle::readFof(int cutID){
+
+  std::string fofFileName = fofNameTemplate + "." + std::to_string(cutID) + ".hdf5";
+  fof = H5::H5File(fofFileName, H5F_ACC_RDONLY );
+
+  H5::Group subhalo = fof.openGroup("Subhalo");
+
+  try{
+    H5::Exception::dontPrint();
+
+    H5::DataSet dataset = subhalo.openDataSet("SubhaloLenType");
+    H5::DataSpace dataspace = dataset.getSpace();
+    hsize_t naxes[2];
+    dataspace.getSimpleExtentDims(naxes, NULL);
+
+    subhaloLenType = Eigen::MatrixXd::Zero(naxes[1], naxes[0]);
+
+    dataset.read(subhaloLenType.data(), H5::PredType::NATIVE_DOUBLE);
+
+    starsLenType = std::vector<int>(naxes[0], 0.);
+    gasLenType = std::vector<int>(naxes[0], 0.);
+
+
+    for (int i = 0; i < naxes[0]; i++){
+      starsLenType[i] = subhaloLenType(4,i);
+      gasLenType[i] = subhaloLenType(0,i);
+    }
+    
+    dataset.close();
+    dataspace.close();
+  }
+  catch( H5::GroupIException error ){
+    starsLenType = std::vector<int>(0);
+    gasLenType = std::vector<int>(0);
+  }
+
+  fof.close();
+
+} //readFof END
+
+void readTNGParticle::readOffset(){
+
+  offset = H5::H5File(offsetFileName, H5F_ACC_RDONLY );
+
+  H5::Group subhalo = offset.openGroup("Subhalo");
+
+  try{
+    H5::Exception::dontPrint();
+
+    H5::DataSet dataset = subhalo.openDataSet("SnapByType");
+    H5::DataSpace dataspace = dataset.getSpace();
+    hsize_t naxes[2];
+    dataspace.getSimpleExtentDims(naxes, NULL);
+    
+    snapByType = Eigen::MatrixXd::Zero(naxes[1], naxes[0]);
+    
+    dataset.read(snapByType.data(), H5::PredType::NATIVE_DOUBLE);
+    
+    starsByType = std::vector<int>(naxes[0], 0.);
+    gasByType = std::vector<int>(naxes[0], 0.);
+        
+    for (int i = 0; i < naxes[0]; i++){
+      starsByType[i] = snapByType(4,i);
+      gasByType[i] = snapByType(0,i);
+    }
+    
+    dataset.close();
+    dataspace.close();
+  }
+  catch( H5::GroupIException error ){
+    ;
+  }
+
+  offset.close();
+
+} //readFof END
+
+/*
+* GAS functions
+*/
+
+std::vector<double> readTNGParticle::getGASSnapVectorValue(std::string keyword){
+
+  H5::DataSet dataset = snapGAS.openDataSet(keyword);
+  H5::DataSpace dataspace = dataset.getSpace();
+
+  hsize_t naxes[1];
+
+  dataspace.getSimpleExtentDims(naxes, NULL);
+  dimensionGas = static_cast<int>(naxes[0]);
+
+  std::vector<double> tmp(naxes[0], 0.);
+  dataset.read(tmp.data(), H5::PredType::NATIVE_DOUBLE);
+
+  dataset.close();
+  dataspace.close();
+  
+  return tmp;
+
+} // getGASSnapVectorValue END
+
+void readTNGParticle::readGASCoordinates(){
+
+  H5::DataSet dataset = snapGAS.openDataSet("Coordinates");
+  H5::DataSpace dataspace = dataset.getSpace();
+  hsize_t naxes[2];
+  dataspace.getSimpleExtentDims(naxes, NULL);
+
+  coordinates_gas = Eigen::MatrixXd::Zero(naxes[1], naxes[0]);
+
+  dataset.read(coordinates_gas.data(), H5::PredType::NATIVE_DOUBLE);
+
+  x_gas = std::vector<double>(naxes[0], 0.);
+  y_gas = std::vector<double>(naxes[0], 0.);
+  z_gas = std::vector<double>(naxes[0], 0.);
+
+  for (int i = 0; i < naxes[0]; i++){
+    x_gas[i] = coordinates_gas(0,i);
+    y_gas[i] = coordinates_gas(1,i);
+    z_gas[i] = coordinates_gas(2,i);
+  }
+
+  dataset.close();
+  dataspace.close();
+
+} //readGASCoordinates END
+
+
+void readTNGParticle::readGASElements(){
+  /*
+  H5::DataSet dataset = snapGAS.openDataSet("GFM_Metals");
+  H5::DataSpace dataspace = dataset.getSpace();
+  hsize_t naxes[2];
+  dataspace.getSimpleExtentDims(naxes, NULL);
+
+  elements_gas = Eigen::MatrixXd::Zero(naxes[1], naxes[0]); 
+
+  dataset.read(elements_gas.data(), H5::PredType::NATIVE_DOUBLE);
+
+  H_gas = std::vector<double>(naxes[0], 0.);
+  He_gas = std::vector<double>(naxes[0], 0.);
+  C_gas = std::vector<double>(naxes[0], 0.);
+
+  for (int i = 0; i < naxes[0]; i++){
+    H_gas[i] = elements_gas(0,i);
+    He_gas[i] = elements_gas(1,i);
+    C_gas[i] = elements_gas(2,i);
+    }*/
+
+} //readGASElements END
+
+
+void readTNGParticle::readGAS(int cutID){
+
+  std::string snapFileName = snapNameTemplate + "." + std::to_string(cutID) + ".hdf5";
+  snap = H5::H5File(snapFileName, H5F_ACC_RDONLY );
+
+  // Open Header group
+  snapGAS = snap.openGroup("PartType0"); //gas
+
+  gmfMetallicity_gas = readTNGParticle::getGASSnapVectorValue("GFM_Metallicity");
+  // HIAbundance_gas = readTNGParticle::getGASSnapVectorValue("NeutralHydrogenAbundance");
+  masses_gas = readTNGParticle::getGASSnapVectorValue("Masses");
+  density_gas = readTNGParticle::getGASSnapVectorValue("Density");
+  InternalEnergy_gas = readTNGParticle::getGASSnapVectorValue("InternalEnergy");
+  eAbundance_gas = readTNGParticle::getGASSnapVectorValue("ElectronAbundance");
+  SFR_gas = readTNGParticle::getGASSnapVectorValue("StarFormationRate");
+  readTNGParticle::readGASCoordinates();
+  readTNGParticle::readGASElements();
+
+  snapGAS.close();
+
+} // readGAS END
+
+
+/*
+* get functions for Header info
+*/
+
+double readTNGParticle::getBoxSize(){
+
+  return boxSize;
+
+} //getBoxSize END
+
+double readTNGParticle::getOmegaZero(){
+
+  return omegaZero;
+
+} //getOmegaZero END
+
+double readTNGParticle::getOmegaLambda(){
+
+  return omegaLambda;
+
+} //getOmegaLambda END
+
+double readTNGParticle::getTime(){
+
+  return time;
+
+} //getTime END
+
+double readTNGParticle::getRedshift(){
+
+  return redshift;
+
+} //getRedshift END
+
+std::vector<double> readTNGParticle::getMassTable(){
+
+  return massTable;
+
+} //getMassTable END
+
+std::vector<int> readTNGParticle::getNumPartTotal(){
+
+  std::vector<int> n(numPartTotal.size(), 0.);
+
+  for (int i = 0; i < numPartTotal.size(); i++){
+    n[i] = numPartTotal[i] | (numPartTotal_HW[i] << 32);
+  }
+
+  return n;
+
+} //getNumPartTotal END
+
+/*
+* get functions for Stars info
+*/
+
+std::vector<double> readTNGParticle::getMetallicity(){
+
+  return gmfMetallicity;
+
+} //getMetallicity END
+
+std::vector<double> readTNGParticle::getInitialMass(){
+
+  return gmfInitialMass;
+
+} //getInitialMass END
+
+std::vector<double> readTNGParticle::getStellarFormationTime(){
+
+  return gmfStellarFormationTime;
+
+} //getStellarFormationTime END
+
+std::vector<double> readTNGParticle::getMasses(){
+
+  return masses;
+
+} //getMasses END
+
+std::vector<double> readTNGParticle::getX(){
+
+  return x;
+
+} //getX END
+
+std::vector<double> readTNGParticle::getY(){
+
+  return y;
+
+} //getX END
+
+std::vector<double> readTNGParticle::getZ(){
+
+  return z;
+
+} //getX END
+
+/*
+* get functions for fof info
+*/
+
+std::vector<int> readTNGParticle::getStarsLenType(){
+
+  return starsLenType;
+
+} //getStarsLenType END
+
+std::vector<int> readTNGParticle::getGasLenType(){
+
+  return gasLenType;
+
+}
+
+/*
+* get functions for offset info
+*/
+
+std::vector<int> readTNGParticle::getStarsByType(){
+
+  return starsByType;
+
+} //getStarsByType END
+
+std::vector<int> readTNGParticle::getGasByType(){
+
+  return gasByType;
+
+}
+
+/*
+* get functions for GAS info
+*/
+
+std::vector<double> readTNGParticle::getGASMetallicity(){
+
+  return gmfMetallicity_gas;
+
+} //getMetallicity END
+
+std::vector<double> readTNGParticle::getGASMasses(){
+
+  return masses_gas;
+
+} //getMasses END
+
+std::vector<double> readTNGParticle::getGASDensity(){
+
+  return density_gas;
+
+} //getDensity END
+
+std::vector<double> readTNGParticle::getGASX(){
+
+  return x_gas;
+
+} //getX END
+
+std::vector<double> readTNGParticle::getGASY(){
+
+  return y_gas;
+
+} //getX END
+
+std::vector<double> readTNGParticle::getGASZ(){
+
+  return z_gas;
+
+} //getX END
+
+std::vector<double> readTNGParticle::getGASHIAbundance(){
+
+  return HIAbundance_gas;
+
+} //getHIAbundance END 
+
+std::vector<double> readTNGParticle::getGASH(){
+
+  return H_gas;
+
+} //getGASH END
+
+std::vector<double> readTNGParticle::getGASHe(){
+
+  return He_gas;
+
+} //getGASHe END
+
+std::vector<double> readTNGParticle::getGASC(){
+
+  return C_gas;
+
+} //getGASC END
+
+std::vector<double> readTNGParticle::getGASIntEnergy(){
+
+  return InternalEnergy_gas;
+
+} //get internal energy END
+
+std::vector<double> readTNGParticle::getGASeAbundance(){
+
+  return eAbundance_gas;
+
+} //get electron abundance END
+
+std::vector<double> readTNGParticle::getGASSFR(){
+
+  return SFR_gas;
+
+} //get electron abundance END
+
+
+
+int readTNGParticle::getDimStars(){
+
+  return dimensionStar;
+
+}
+
+int readTNGParticle::getDimGas(){
+
+  return dimensionGas;
+
+}
