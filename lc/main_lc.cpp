@@ -1039,7 +1039,9 @@ int main(int argc, char** argv){
       cout <<  "first subhalo ID: " << idshs[0] << "  |  last subhalo ID: " << idshs[totPartxy4-1] << endl;
     cout << "" << endl;
     cout << " ... Writing the output file ... " << endl;
-
+    cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, -, age, -, CM of sh with ids, Nparticles of sh with ids in sim) for stellar particles;" << endl;
+    cout << endl;
+    
     // write particles in fov on a txt file:
     string coord_path_="coords.s"+snappl+"nd_"+conv(iplrestart,fINT)+"_lc.txt";
     ofstream myfile2_;
