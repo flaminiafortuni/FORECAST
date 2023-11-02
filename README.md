@@ -76,7 +76,7 @@ For gas cells (" _PartType0_ "):
 For the exact descriptions of the fields, please refer to [IllustrisTNG/DataSpecification](https://www.tng-project.org/data/docs/specifications/#parttype0).
 
 ## Output description
-The output of the code is the catalog including the physical properties and the true fluxes of the simulated stellar particles. It is used to build the galaxy catalog.
+The output of the code is the catalog, including the physical properties and the true fluxes of the simulated stellar particles. It is used to build the galaxy catalog.
     The catalogs, both the particles and the galaxy ones, have different sizes depending on the number of particles (or galaxies) included in the field of view and typically grow in size as the redshift increases since more structures are included. The total size of output files is 1 TB.
     The output images are recorded on 16-bit floating-point FITS files. Each plane (projection on a bi-dimensional map of fluxes from a volume of the Universe included in the field of view, in a redshift range) occupies 3 GB, while the size of the final stacked image is 5 GB.
     
@@ -85,29 +85,30 @@ The output of the code is the catalog including the physical properties and the 
 - Download the required C/C++ libraries
 - Download the hydrodynamical simulation input files
 - Change paths and parameters in the input configuration file \*.ini (in each module)
-- Compile Makefile
+- Lik proper libraries and compile Makefile
 - run bash \*.sh file (one partition per time; refer to planes_list.txt file to choose the partition/snapshot-plane run) 
 
 ## Contributing
 
 ## Citation and Acknowledgment
 
-When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). The paper has been accepted for publication in Astronomy&Astrophysics; we will update this section.
+When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). 
 
-```@ARTICLE{2023arXiv230519166F,
+```@ARTICLE{2023A&A...677A.102F,
        author = {{Fortuni}, Flaminia and {Merlin}, Emiliano and {Fontana}, Adriano and {Giocoli}, Carlo and {Romelli}, Erik and {Graziani}, Luca and {Santini}, Paola and {Castellano}, Marco and {Charlot}, St{\'e}phane and {Chevallard}, Jacopo},
-        title = "{FORECAST: a flexible software to forward model cosmological hydrodynamical simulations mimicking real observations}",
-      journal = {arXiv e-prints},
-     keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Astrophysics - Astrophysics of Galaxies, 85},
+        title = "{FORECAST: A flexible software to forward model cosmological hydrodynamical simulations mimicking real observations}",
+      journal = {\aap},
+     keywords = {virtual observatory tools, galaxies: evolution, Astrophysics - Instrumentation and Methods for Astrophysics, Astrophysics - Astrophysics of Galaxies, 85},
          year = 2023,
-        month = may,
-          eid = {arXiv:2305.19166},
-        pages = {arXiv:2305.19166},
-          doi = {10.48550/arXiv.2305.19166},
+        month = sep,
+       volume = {677},
+          eid = {A102},
+        pages = {A102},
+          doi = {10.1051/0004-6361/202346725},
 archivePrefix = {arXiv},
        eprint = {2305.19166},
  primaryClass = {astro-ph.IM},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2023A&A...677A.102F},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
-
+```
