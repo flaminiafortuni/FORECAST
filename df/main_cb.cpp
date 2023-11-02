@@ -343,9 +343,11 @@ int main(int argc, char** argv){
   }
  
     
-  cout << ".. Reading input particles cone catalog from lc module.." << endl;
+  cout << ".. Reading input cone particle-based catalog from lc module.." << endl;
+  cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, -, age, -, CM of sh with ids, Nparticles of sh with ids in sim) for stellar particles;" << endl;
+  cout << endl;
   // Reading particle catalog created by the previous module lc
-  string filoutcat="../lc_C/coords.s"+snappl+"nd_"+conv(iplrestart,fINT)+"_lc.txt";
+  string filoutcat="../lc/coords.s"+snappl+"nd_"+conv(iplrestart,fINT)+"_lc.txt";
   ifstream ocf;
   ocf.open(filoutcat.c_str());
   if(ocf.is_open()){
@@ -368,7 +370,7 @@ int main(int argc, char** argv){
 	NpshTNG.push_back(NPTNG);
       }  
     }
-    ocf.close();
+      ocf.close();
   }
   else{
     cout << "  " << endl;
@@ -504,7 +506,11 @@ int main(int argc, char** argv){
       cout << "" << endl;
     }
 
-    cout << " .. Writing the particle-based, dust-free flux catalogue .." << endl;    
+    cout << " .. Writing the particle-based, dust-free flux catalogue .." << endl;
+    cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, CM of sh with ids, age, Nparticles of sh with ids in sim) for stellar particles;" << endl;
+    cout << " ..          #(dust-free flux in Nfilters) for stellar particles." << endl;
+    cout << endl;
+    
     //printing particles within fov on a txt file    
     string coord_path="flux.jwst16."+snappl+"nd_"+conv(iplrestart,fINT)+".txt";
     ofstream myfile2;
