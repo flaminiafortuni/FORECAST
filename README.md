@@ -76,7 +76,7 @@ For gas cells (" _PartType0_ "):
 For the exact descriptions of the fields, please refer to [IllustrisTNG/DataSpecification](https://www.tng-project.org/data/docs/specifications/#parttype0).
 
 ## Output description
-The output of the code is the catalog including the physical properties and the true fluxes of the simulated stellar particles. It is used to build the galaxy catalog.
+The output of the code is the catalog, including the physical properties and the true fluxes of the simulated stellar particles. It is used to build the galaxy catalog.
     The catalogs, both the particles and the galaxy ones, have different sizes depending on the number of particles (or galaxies) included in the field of view and typically grow in size as the redshift increases since more structures are included. The total size of output files is 1 TB.
     The output images are recorded on 16-bit floating-point FITS files. Each plane (projection on a bi-dimensional map of fluxes from a volume of the Universe included in the field of view, in a redshift range) occupies 3 GB, while the size of the final stacked image is 5 GB.
     
@@ -85,7 +85,7 @@ The output of the code is the catalog including the physical properties and the 
 - Download the required C/C++ libraries
 - Download the hydrodynamical simulation input files
 - Change paths and parameters in the input configuration file \*.ini (in each module)
-- Compile Makefile
+- Lik proper libraries and compile Makefile
 - run bash \*.sh file (one partition per time; refer to planes_list.txt file to choose the partition/snapshot-plane run) 
 
 ## Contributing
