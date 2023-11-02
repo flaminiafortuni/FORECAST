@@ -92,22 +92,23 @@ The output of the code is the catalog, including the physical properties and the
 
 ## Citation and Acknowledgment
 
-When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). The paper has been accepted for publication in Astronomy&Astrophysics; we will update this section.
+When using the code, please cite the release paper [Fortuni et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F/abstract). 
 
-```@ARTICLE{2023arXiv230519166F,
+```@ARTICLE{2023A&A...677A.102F,
        author = {{Fortuni}, Flaminia and {Merlin}, Emiliano and {Fontana}, Adriano and {Giocoli}, Carlo and {Romelli}, Erik and {Graziani}, Luca and {Santini}, Paola and {Castellano}, Marco and {Charlot}, St{\'e}phane and {Chevallard}, Jacopo},
-        title = "{FORECAST: a flexible software to forward model cosmological hydrodynamical simulations mimicking real observations}",
-      journal = {arXiv e-prints},
-     keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Astrophysics - Astrophysics of Galaxies, 85},
+        title = "{FORECAST: A flexible software to forward model cosmological hydrodynamical simulations mimicking real observations}",
+      journal = {\aap},
+     keywords = {virtual observatory tools, galaxies: evolution, Astrophysics - Instrumentation and Methods for Astrophysics, Astrophysics - Astrophysics of Galaxies, 85},
          year = 2023,
-        month = may,
-          eid = {arXiv:2305.19166},
-        pages = {arXiv:2305.19166},
-          doi = {10.48550/arXiv.2305.19166},
+        month = sep,
+       volume = {677},
+          eid = {A102},
+        pages = {A102},
+          doi = {10.1051/0004-6361/202346725},
 archivePrefix = {arXiv},
        eprint = {2305.19166},
  primaryClass = {astro-ph.IM},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2023arXiv230519166F},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2023A&A...677A.102F},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
-
+```
