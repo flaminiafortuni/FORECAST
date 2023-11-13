@@ -166,7 +166,7 @@ int main(int argc, char** argv){
   }
   		 
   else{
-    cout << " time list file timelist.txt does not " << endl;
+    cout << " time list file " << filtimelist << "  does not " << endl;
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
     exit(1);
@@ -1038,12 +1038,12 @@ int main(int argc, char** argv){
     if (totPartxy4>0)
       cout <<  "first subhalo ID: " << idshs[0] << "  |  last subhalo ID: " << idshs[totPartxy4-1] << endl;
     cout << "" << endl;
-    cout << " ... Writing the output file ... " << endl;
+    cout << " ... Writing the output file (coords.lc.snap_plane.txt)... " << endl;
     cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, -, age, -, CM of sh with ids, Nparticles of sh with ids in sim) for stellar particles;" << endl;
     cout << endl;
     
     // write particles in fov on a txt file:
-    string coord_path_="coords.s"+snappl+"nd_"+conv(iplrestart,fINT)+"_lc.txt";
+    string coord_path_="coords.lc."+snappl+"_"+conv(iplrestart,fINT)+".txt";
     ofstream myfile2_;
     myfile2_.open(coord_path_);
     for (int i=0;i<totPartxy4; i++){

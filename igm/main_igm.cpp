@@ -157,7 +157,7 @@ int main (int argc, char** argv){
     timelist.close();
   }  		 
   else{
-    cout << " time list file timelist_TNG.txt does not " << endl;
+    cout << " time list file " << filtimelist <<" does not " << endl;
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
     exit(1);
@@ -288,7 +288,7 @@ int main (int argc, char** argv){
  
   
   cout << " " << endl;
-  cout << "... Reading input file (flux.xxDUST_yy.txt) from previous module ..." << endl;
+  cout << "... Reading input file (flux.dc.snap_plane.txt) from previous module ..." << endl;
   cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, age) for stellar particles;" << endl;
   cout << " ..          #(Zgas_w, NHIgas_w) computed on galaxy-basis, for galaxies with id==is." << endl;
   cout << " ..          #(Np_sh, N_sim): number of particles with ids in the lightcone, number of particle with ids in the original simulation." << endl;
@@ -297,7 +297,7 @@ int main (int argc, char** argv){
   
 
   // reading dc16 output catalogue (dust-corrected fluxes)
-  string filoutcat="../dc/flux.jwst16."+snappl+"DUST_"+conv(iplrestart,fINT)+".txt";
+  string filoutcat="../dc/flux.dc."+snappl+"_"+conv(iplrestart,fINT)+".txt";
   ifstream ocf;
   ocf.open(filoutcat.c_str());  
   if(ocf.is_open()){
@@ -518,14 +518,14 @@ int main (int argc, char** argv){
   }
 
   cout << " " << endl;
-  cout << "... Writing output file (flux.xxigm_yy.txt) from this module ..." << endl;
+  cout << "... Writing output file (flux.igm.snap_plane.txt) from this module ..." << endl;
   cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, age) for stellar particles;" << endl;
   cout << " ..          #(Zgas_w, NHIgas_w) computed on galaxy-basis, for galaxies with id==is." << endl;
   cout << " ..          #(Np_sh, N_sim): number of particles with ids in the lightcone, number of particle with ids in the original simulation." << endl;
   cout << " ..          #(reddened+igm flux in Nfilters) for stellar particles." << endl;
   cout << endl;
   // print particles in fov on a txt file -- physical chars + unreddened fluxes followed by reddened fluxes
-  string ncoord_path=rdir+"flux."+snappl+"igm_"+conv(iplrestart,fINT)+".txt";
+  string ncoord_path=rdir+"flux.igm."+snappl+"_"+conv(iplrestart,fINT)+".txt";
   ofstream myfile2p;
   myfile2p.open(ncoord_path);
   for (auto k = 0; k < idsh.size(); k++) {

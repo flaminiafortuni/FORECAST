@@ -163,7 +163,7 @@ int main (int argc, char** argv){
     timelist.close();
   }  		 
   else{
-    cout << " time list file timelist_TNG.txt does not " << endl;
+    cout << " time list file " << filtimelist << " does not " << endl;
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
     exit(1);
@@ -334,13 +334,13 @@ int main (int argc, char** argv){
 
   cout << " " << endl;
   cout << " " << endl;
-  cout << "... Reading dust-free particle-based catalog produced in the previous module ..." << endl;
+  cout << "... Reading dust-free particle-based catalog produced in the previous module (flux.df.snap_plane.txt) ..." << endl;
   cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, CM_sh, age, N_sim) for stellar particles;" << endl;
   cout << " ..          #(dust-free flux in Nfilters) for stellar particles." << endl;
   cout << endl;
 
   // reading df output catalogue (dust-free fluxes)
-  string filoutcat="../df/flux."+snappl+"nd_"+conv(iplrestart,fINT)+".txt";
+  string filoutcat="../df/flux.df."+snappl+"_"+conv(iplrestart,fINT)+".txt";
   ifstream ocf;
   ocf.open(filoutcat.c_str());
   if(ocf.is_open()){
@@ -730,7 +730,7 @@ int main (int argc, char** argv){
     
     cout << "::: gas done ::: " << endl;
     cout << "" << endl;
-    cout << " ... Writing gas catalog (coords.xxDUST_yy.txt) ..." << endl;
+    cout << " ... Writing gas catalog (coords.dc.snap_plane.txt) ..." << endl;
     cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, age) for stellar particles;" << endl;
     cout << " ..          #(Zgas_w, NHIgas_w) computed on galaxy-basis, for galaxies with id==is." << endl;
     cout << " ..          #(dust-free flux in Nfilters) for stellar particles." << endl;
@@ -738,7 +738,7 @@ int main (int argc, char** argv){
  
 
     // Write coord catalogue - Nsh and NshTNG included
-    string gcoord_path =rdir + "coords." + snappl + "DUST_" + conv(iplrestart, fINT) + ".txt";
+    string gcoord_path =rdir + "coords.dc." + snappl + "_" + conv(iplrestart, fINT) + ".txt";
     ofstream myfile2g;
     myfile2g.open(gcoord_path);
   
@@ -768,7 +768,7 @@ int main (int argc, char** argv){
     omL0 = 0.6911;
     dlsim=getY(zl,dl,zsim);
     //
-    cout << " .. Extracting gas properties from gas catalog (coords.xxDUST_yy.txt) .." << endl;
+    cout << " .. Extracting gas properties from gas catalog (coords.dc.snap_plane.txt) .." << endl;
     cout << " .. ! This is an old version of coords.xx files ! .." << endl;
     cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, age) for stellar particles;" << endl;
     cout << " ..          #(Zgas_w, NHIgas_w) computed on galaxy-basis, for galaxies with id==is." << endl;
@@ -780,7 +780,7 @@ int main (int argc, char** argv){
     // Read gas properties PARTICLE-BASED -> to be transformed into galaxy-based
     vector<int> idsh0p(0), Npshp(0), NpshTNGp(0);
     vector<double> Zmp(0), NHImp(0);
-    string filoutcatgas = rdir + "/coords.jwst16." + snappl + "DUST_" + conv(iplrestart, fINT) + ".txt";
+    string filoutcatgas = rdir + "/coords.dc." + snappl + "_" + conv(iplrestart, fINT) + ".txt";
     ifstream ocfgas;
     ocfgas.open(filoutcatgas.c_str());
     if (ocfgas.is_open()) {
@@ -986,7 +986,7 @@ int main (int argc, char** argv){
     }
   }
 
-  cout << "... Writing output file (flux.xxDUST_yy.txt) from this module ..." << endl;
+  cout << "... Writing output file (flux.dc.snap_plane.txt) from this module ..." << endl;
   cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, age) for stellar particles;" << endl;
   cout << " ..          #(Zgas_w, NHIgas_w) computed on galaxy-basis, for galaxies with id==is." << endl;
   cout << " ..          #(Np_sh, N_sim): number of particles with ids in the lightcone, number of particle with ids in the original simulation." << endl;
@@ -995,7 +995,7 @@ int main (int argc, char** argv){
   
   
   // print particles in fov on a txt file -- physical chars + unreddened fluxes followed by reddened fluxes
-  string ncoord_path =rdir + "flux." + snappl + "DUST_" + conv(iplrestart, fINT) + ".txt";
+  string ncoord_path =rdir + "flux.dc." + snappl + "_" + conv(iplrestart, fINT) + ".txt";
  
   ofstream myfile2p;
   myfile2p.open(ncoord_path);

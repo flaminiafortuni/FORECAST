@@ -347,7 +347,7 @@ int main(int argc, char** argv){
   cout << " .. content: #(ids,x,y,redshift,mass,intial mass,metallicity, -, age, -, CM of sh with ids, Nparticles of sh with ids in sim) for stellar particles;" << endl;
   cout << endl;
   // Reading particle catalog created by the previous module lc
-  string filoutcat="../lc/coords.s"+snappl+"nd_"+conv(iplrestart,fINT)+"_lc.txt";
+  string filoutcat="../lc/coords.lc."+snappl+"_"+conv(iplrestart,fINT)+".txt";
   ifstream ocf;
   ocf.open(filoutcat.c_str());
   if(ocf.is_open()){
@@ -512,7 +512,7 @@ int main(int argc, char** argv){
     cout << endl;
     
     //printing particles within fov on a txt file    
-    string coord_path="flux.jwst16."+snappl+"nd_"+conv(iplrestart,fINT)+".txt";
+    string coord_path="flux.df."+snappl+"_"+conv(iplrestart,fINT)+".txt";
     ofstream myfile2;
     myfile2.open(coord_path);
     for (int i=0;i<totPartxy4; i++){ //	   
