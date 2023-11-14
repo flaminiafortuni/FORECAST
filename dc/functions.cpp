@@ -295,7 +295,7 @@ void readParameters(double *boxl, float *maglim,
 
   string butstr;
   ifstream inputf;
-  inputf.open("MapSimDust.ini");
+  inputf.open("dc.ini");
   if(inputf.is_open()){
     inputf >> butstr; // box_length of the simulation [Mpc/h]
     inputf >> *boxl;

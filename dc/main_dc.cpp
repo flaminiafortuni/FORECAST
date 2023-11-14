@@ -141,7 +141,7 @@ int main (int argc, char** argv){
   }
   else{
     cout << "  " << endl;
-    cout << " planes_list.txt: " << fplane << endl;
+    cout << " planes list  " << fplane << endl;
     cout << " does not exists for this snapshot. " << endl;
     cout << " I will STOP here!!! " << endl;
     exit(1);
@@ -185,7 +185,7 @@ int main (int argc, char** argv){
   }
   
   else{
-    cout << " time list file " << filagelist << ".txt does not " << endl;
+    cout << " time list file " << filagelist << " does not " << endl;
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
     exit(1);
@@ -210,7 +210,7 @@ int main (int argc, char** argv){
     extcurve.close();    
   }  
   else{
-    cout << " Extinction curve file " << filextc << ".txt does not " << endl;    
+    cout << " Extinction curve file " << filextc << " does not " << endl;    
     cout << " exist in the Code dir ... check this out      " << endl;    
     cout << "    I will STOP here !!! " << endl;    
     exit(1);

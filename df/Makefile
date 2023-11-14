@@ -1,7 +1,7 @@
 # executable name 
 PROG = /node6/data/flaminia/github/df16/executable
 
-MAIN = main_cb.cpp readTNGParticle.cpp SED.cpp functions.cpp
+MAIN = main_df.cpp readTNGParticle.cpp SED.cpp functions.cpp
 
 LDFLAGS +=-Wl,-rpath -larmadillo -llapack -lblas -lstdc++
 

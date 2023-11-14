@@ -298,7 +298,7 @@ void readParameters(double *boxl, double *zs,
 
   string butstr;
   ifstream inputf;
-  inputf.open("MapSim.ini");
+  inputf.open("df.ini");
   if(inputf.is_open()){
     inputf >> butstr; // boxl
     inputf >> *boxl;

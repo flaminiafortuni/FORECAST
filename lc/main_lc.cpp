@@ -93,10 +93,8 @@ int main(int argc, char** argv){
 
   
   // ******************** to be read in the INPUT file ********************
-  // ... project - number of pixels
-  int npix, bufferpix, truenpix;
-  // ... simulation box_length in [Mpc/h], highest redshift & distance reached by the cone, dimension of fov in degrees
-  double boxl,zs,Ds,fov;
+  // ... simulation box_length in [Mpc/h], highest redshift & distance reached by the cone, dimension of fov in degrees, resolution of the image in arcsecs
+  double boxl,zs,Ds,fov,res;
   // ... files
   string filredshiftlist,filsnaplist, filtimelist, filfilters,idc;
   // ... paths
@@ -104,15 +102,19 @@ int main(int argc, char** argv){
   // ... seeds for randomization of the simulation box
   long seedcenter, seedface, seedsign;
 
-  readParameters(&npix,&bufferpix,&boxl,&zs,&fov,
+  readParameters(&boxl,&zs,&fov,&res,
 		 &filredshiftlist,&filsnaplist,&filtimelist,&idc,
 		 &pathsnap,&rdir,
 		 &seedcenter,&seedface,&seedsign);
-  
-  truenpix = npix;
-  npix = truenpix + bufferpix; // add bufferpix/2 in each side!
-  string snpix = conv(truenpix,fINT);
 
+  //pixels of the image
+  int truenpix=int(fov*3600/res);
+  int bufferpix=int(ceil((truenpix + 1)*20 / 14142));  // add bufferpix/2 in each side!
+  int npix=truenpix+bufferpix;
+
+  cout << "N. pixels: " << truenpix << "; buffer pixels: " << bufferpix << endl;
+  cout << endl;
+  
   
   // ... read the redshift list and the snap_available in redshift_list
   ifstream redlist;

@@ -135,26 +135,23 @@ int countHDF5Files(const std::string& path, const std::string& extension) {
 }
 
 // read .ini file parameters
-void readParameters(int *npix, int *bufferpix, double *boxl,
-		    double *zs, double *fov,
+void readParameters(double *boxl,double *zs, double *fov,double *res,
 		    string *filredshiftlist,string *filsnaplist, string *filtimelist, string *idc,
 		    string *pathsnap, string *rdir, 
 		    long *seedcenter, long *seedface, long *seedsign){ 
 
   string butstr;
   ifstream inputf;
-  inputf.open("MapSim.ini");
+  inputf.open("lc.ini");
   if(inputf.is_open()){
-    inputf >> butstr; // number of pixels by side
-    inputf >> *npix;
-    inputf >> butstr; // number of buffer pixels in total
-    inputf >> *bufferpix;
     inputf >> butstr; // box_length of the simulation in [Mpc/h]
     inputf >> *boxl;
     inputf >> butstr; // source redshift
     inputf >> *zs;
     inputf >> butstr; // field of view in degrees by side
     inputf >> *fov;
+    inputf >> butstr; // image resolution in arcsecs
+    inputf >> *res;
     inputf >> butstr; // file with the redshift list; it must contain three columns: [snap, 1/(1+z), z]
     inputf >> *filredshiftlist;
     inputf >> butstr; // file with the snapshot list available 

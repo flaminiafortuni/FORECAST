@@ -301,7 +301,7 @@ void readParameters(double *boxl,
 
   string butstr;
   ifstream inputf;
-  inputf.open("MapSimIGM.ini");
+  inputf.open("igm.ini");
   if(inputf.is_open()){
     inputf >> butstr; // box_length of the sim box [Mpc/h]
     inputf >> *boxl;

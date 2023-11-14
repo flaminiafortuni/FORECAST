@@ -135,7 +135,7 @@ int main (int argc, char** argv){
   }
   else{
     cout << "  " << endl;
-    cout << " planes_list.txt: " << fplane << endl;
+    cout << " planes list file " << fplane << endl;
     cout << " does not exists for this snapshot. " << endl;
     cout << " I will STOP here!!! " << endl;
     exit(1);
@@ -175,7 +175,7 @@ int main (int argc, char** argv){
     listfilter.close();
   }  		 
   else{
-    cout << " filter list file does not " << endl;
+    cout << " filter list file "<< filfilters <<" does not " << endl;
 					     
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
@@ -222,7 +222,7 @@ int main (int argc, char** argv){
   }
   
   else{
-    cout << " time list file " << filagelist << ".txt does not " << endl;
+    cout << " time list file " << filagelist << " does not " << endl;
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
     exit(1);
