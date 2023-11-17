@@ -42,7 +42,7 @@ while p>0:
         elif '-INPUT_PATH' in sys.argv[p]:
             INPUT_PATH=str(sys.argv[p+1])
         elif '-ADD_TO_FILENAME' in sys.argv[p]:
-            ADD="."+str(sys.argv[p+1])+"."
+            ADD="."+str(sys.argv[p+1])
         p+=2
     except:
         p=-1
@@ -79,7 +79,7 @@ for image in image_concat:
 
 
 
-outfile = 'stacked.'+FILTER+MODULE+ADD+'.fits'
+outfile = 'stacked.'+FILTER+"."+MODULE+ADD+'.fits'
 
 header = fits.Header()
 header["HIERARCH N_PIXEL_BY_SIDE"] = truenpix
