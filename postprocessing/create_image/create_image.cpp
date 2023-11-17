@@ -260,7 +260,7 @@ int main(int argc, char** argv){
   
   std::valarray<float> mapxy4( npix*npix );
   string pixu="flux [uJ]";
-  string fileoutput=rdir+"/"+filter+"."+snappl+module+"_"+plane+".fits";
+  string fileoutput=rdir+"/"+filter+"."+module+"."+snappl+"_"+plane+".fits";
   
   //make the map
   mapxy4=gridist_nok(xs,ys,fH,npix);
