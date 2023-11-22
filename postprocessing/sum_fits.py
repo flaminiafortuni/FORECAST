@@ -8,9 +8,13 @@ Created on Thu Apr  9 16:29:03 2020
 
 #CREATE FINAL pre-POST PROCESSING FITS FILE
 
-print ("\n\nUSAGE: python sum_fits.py IMAGE PSF [-options]")
-print ("OPTIONS: INI_FILE, FILTER, MODULE, INPUT_PATH, ADD_TO_FILENAME ")
-print ("NOTE: ...\n")
+print ("\n\nUSAGE: python sum_fits.py [-options]")
+print ("OPTIONS: INI_FILE, FILTER, MODULE, INPUT_PATH, ADD_TO_FILENAME\n")
+print ("NOTE: ...INI_FILE must be created from /lc/planes_list(#cols 1, 6, 7) with following column names: #pl,snap,z\n")
+print ("NOTE: ...FILTER is the filter name as it is written in the filters file.\n")
+print ("NOTE: ...MODULE is df,dc or igm.\n")
+print ("NOTE: ...INPUT_PATH is ./ by default.\n")
+print ("NOTE: ...ADD_TO_FILENAME is something you want to add to the name of the final image.\n")
 
 
 import glob
