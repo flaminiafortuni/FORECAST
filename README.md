@@ -34,13 +34,13 @@ It requires the following C/C++ standard libraries:
 
 ## How to install and run
 - Download the code with the "Code" green button on this page, or clone it with `git clone https://github.com/flaminiafortuni/FORECAST`
-- Download and install the required C/C++ libraries
+- Download and install the required C/C++ libraries (see [Requirements](#requirements))
 - Download the hydrodynamical simulation snapshots as input files (e.g., [IllustrisTNG](https://www.tng-project.org/data/), [EAGLE](https://icc.dur.ac.uk/Eagle/database.php))
 - In each of the four modules ([lc](lc), [df](df), [dc](dc), [igm](igm)):
-  1. open the `Makefile` and link proper libraries (only change "LIBS" an "ALLFLAGS" paths; e.g., in `-L/usr/local/lib/  -lgsl -lgslcblas  \` only change `-L/usr/local/lib/`)
+  1. open the `Makefile` and link proper libraries (change only "LIBS" an "ALLFLAGS" paths; e.g., in line  `-L/usr/local/lib/  -lgsl -lgslcblas  \` change only `/usr/local/lib/`)
   2. compile the `Makefile`(s) with `make`   
 - Change paths and parameters in the input configuration file `\*.ini` (in each module; see  [Configuration file](#configuration-file) for further details)
--  Write the list of filters in the file  `filters.dat`, exactly as you named them in your filters folder (e.g., if you want to use `VIMOS_U.dat`, in the list, you will write `VIMOS_U`). Ensure that the filter file contains no header and consist of two columns: wavelength in AA and filter transmission.
+-  Write the list of filters in the file  `filters.dat` in each module, exactly as you named them in your filters folder (e.g., if you want to use `VIMOS_U.dat`, in the list, you will write `VIMOS_U`). Ensure that the filter file contains no header and consist of two columns: wavelength in AA and filter transmission.
 - Modify `*module*.sh` by writing the snapshots you want to run on (single available snapshot or a list), and run `bash *module*.sh` or `sh *module*.sh` (one partition per time; refer to `planes_list` file to choose the partition/(snapshot,plane) pair). 
 
 ## Pipeline

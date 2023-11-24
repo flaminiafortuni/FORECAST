@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #write by hand the snapshot numbers avalaible in your directory 
-declare -a snapshots=(81 82 83 84 85 86 87 88 89 90 91)
+declare -a snapshots=(1 34 98)
 nl=$(cat ../lc/planes_list.txt | wc -l)
 declare -a x
 declare -a y

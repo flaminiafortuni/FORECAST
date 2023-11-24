@@ -171,7 +171,7 @@ int main (int argc, char** argv){
 
   //open age_bc03.txt or age_cb16.txt
   ifstream agelist;
-  string filagelist=rdir+"age_"+model+".txt";
+  string filagelist="../files/age_"+model+".txt";
   agelist.open(filagelist.c_str());
   vector <double> nage;
   vector <long double> age_bc03;
@@ -261,7 +261,7 @@ int main (int argc, char** argv){
   std::vector <vector<long double> > fwaves(Nfilters,vector<long double>(0));
   
   for(auto N=0;N<Nfilters;N++){
-    string filterin=rdir + "filters/" + nfilter[N] + ".dat";
+    string filterin="../files/filters/" + nfilter[N] + ".dat";
     ifstream filterlist;
     filterlist.open(filterin.c_str());
     if(filterlist.is_open()){
