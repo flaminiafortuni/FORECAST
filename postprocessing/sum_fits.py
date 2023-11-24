@@ -8,13 +8,13 @@ Created on Thu Apr  9 16:29:03 2020
 
 #CREATE FINAL pre-POST PROCESSING FITS FILE
 
-print ("\n\nUSAGE: python sum_fits.py [-options]")
-print ("OPTIONS: INI_FILE, FILTER, MODULE, INPUT_PATH, ADD_TO_FILENAME\n")
-print ("NOTE: ...INI_FILE must be created from /lc/planes_list(#cols 1, 6, 7) with following column names: #pl,snap,z\n")
-print ("NOTE: ...FILTER is the filter name as it is written in the filters file.\n")
-print ("NOTE: ...MODULE is df,dc or igm.\n")
-print ("NOTE: ...INPUT_PATH is ./ by default.\n")
-print ("NOTE: ...ADD_TO_FILENAME is something you want to add to the name of the final image.\n")
+print ("\n\nUSAGE: python sum_fits.py [-options]\n")
+print ("OPTIONS: INI_FILE, FILTER, MODULE, INPUT_PATH, ADD_TO_FILENAME")
+print ("NOTE: ...INI_FILE must be created from /lc/planes_list(#cols 1, 6, 7) with following column names: #pl,snap,z .")
+print ("      ...FILTER is the filter name as it is written in the filters file.")
+print ("      ...MODULE is df,dc or igm.")
+print ("      ...INPUT_PATH is ./ by default.")
+print ("      ...ADD_TO_FILENAME is something you want to add to the name of the final image.\n")
 
 
 import glob
@@ -46,13 +46,14 @@ while p>0:
         elif '-INPUT_PATH' in sys.argv[p]:
             INPUT_PATH=str(sys.argv[p+1])
         elif '-ADD_TO_FILENAME' in sys.argv[p]:
-            ADD="."+str(sys.argv[p+1])
+            ADD="."+str(sys.argv[p+1])+"."
         p+=2
     except:
         p=-1
 
 
-print("-INI_FILE", INI_FILE,"-FILTER", FILTER, "-MODULE", MODULE, "-INPUT_PATH", INPUT_PATH, "-ADD_TO_FILENAME",ADD)
+print("-INI_FILE", INI_FILE,"-FILTER", FILTER, "-MODULE", MODULE, "-INPUT_PATH", INPUT_PATH, "-ADD_TO_FILENAME",ADD, "\n")
+
 image_list = [ INPUT_PATH+FILTER+'.'+MODULE+'.'+str(n)+'_'+str(m)+'.fits' for n,m in zip(snap,pl) ]
 header_list=[]
 
@@ -74,16 +75,12 @@ h0 = header_list[0]["HUBBLE"]
 dl_first = float(header_list[0]["Dl_UP"])*h0
 dl_last = float(header_list[-1]["Dl_UP"])*h0
 
-print(z_first,z_last,truenpix,bufferpix,pixu,ntotxy4,fov,h0,dl_first,dl_last)
-
 final_image = np.zeros(shape=image_concat[0].shape)
 
 for image in image_concat:
     final_image += image
 
-
-
-outfile = 'stacked.'+FILTER+"."+MODULE+ADD+'.fits'
+outfile = 'stacked.'+FILTER+MODULE+ADD+'.fits'
 
 header = fits.Header()
 header["HIERARCH N_PIXEL_BY_SIDE"] = truenpix
@@ -97,10 +94,7 @@ header["HIERARCH UPPER_REDSHIFT"] = z_last
 header["HIERARCH LOWER_Dl_Mpc"] = dl_first
 header["HIERARCH UPPER_Dl_Mpc"] = dl_last
 header["h0"] = h0
-
-
-
 hdu = fits.PrimaryHDU(data=final_image, header=header)
 hdu.writeto(outfile, overwrite=True)
 
-print("\n:::::FINAL IMAGE", outfile, ":::::")
+print(" FINAL IMAGE WRITTEN", outfile)
