@@ -337,62 +337,36 @@ int main(int argc, char** argv){
   cout << " " << endl;
   cout << " nsnaps (including replications) = " << nsnaps << endl;
   cout << " " << endl;
-  int j=0;
-    
-  for(auto i=0;i<Blred.size();i++){
-    float delta=BlD2[i]-BlD[i];
+ 
+  for (auto i = 0; i < Blred.size(); i++) {
+    float delta = BlD2[i] - BlD[i];
     float delta1=BlD2[i+1]-BlD[i+1];
-    if (delta>1.*boxl && delta<2.*boxl){
-      //firts half
-      bblD.push_back(BlD[i]);
-      bblD2.push_back((BlD[i]+BlD2[i])/2.);
-      double dlbut=(BlD[i]+(BlD2[i]+BlD[i])/2.)/2.;
-      bbzsimlens.push_back(getY(dl,zl,dlbut));
-      bbreplication.push_back(Breplication[i-1]+1);
-      bblsnap.push_back(Blsnap[i]);
-      bblred.push_back(Blred[i]);
-      bbfromsnap.push_back(Bfromsnap[i]);
-      //second half
-      bblD.push_back((BlD2[i]+BlD[i])/2.);
-      bblD2.push_back(BlD2[i]);
-      double dlbut2=(BlD2[i]+(BlD2[i]+BlD[i])/2.)/2.;
-      bbzsimlens.push_back(getY(dl,zl,dlbut2));
-      bbreplication.push_back(Breplication[i-1]+2);
-      bblsnap.push_back(Blsnap[i]);
-      bblred.push_back(Blred[i]);
-      bbfromsnap.push_back(Bfromsnap[i]);
+    int n = static_cast<int>(std::ceil(delta / boxl));
+    if (delta > boxl) {
+        double add = delta / static_cast<double>(n);
+
+        for (int k = 1; k <= n; k++) {
+            bblD.push_back(BlD[i] + (k - 1) * add);
+            bblD2.push_back(BlD[i] + k * add);
+            double dlbut =BlD[i] + (2 * k - 1) * 0.5 * add;
+            bbzsimlens.push_back(getY(dl, zl, dlbut));
+            bbreplication.push_back(Breplication[i - 1] + k);
+            bblsnap.push_back(Blsnap[i]);
+            bblred.push_back(Blred[i]);
+            bbfromsnap.push_back(Bfromsnap[i]);
+        }
+    } else {
+        bblD.push_back(BlD[i]);
+        bblD2.push_back(BlD[i] + delta);
+        double dlbut = BlD[i] + 0.5 * delta;  
+        bbzsimlens.push_back(getY(dl, zl, dlbut));
+        bbreplication.push_back(Breplication[i - 1] + 1);
+        bblsnap.push_back(Blsnap[i]);
+        bblred.push_back(Blred[i]);
+        bbfromsnap.push_back(Bfromsnap[i]);
     }
-    else if (delta>2.*boxl && delta<3.*boxl){
-      double add=(BlD2[i]-BlD[i])/3.;
-      //firts 
-      bblD.push_back(BlD[i]);
-      bblD2.push_back(BlD[i]+add);
-      double dlbut=(2.*BlD[i]+add)/2.;
-      bbzsimlens.push_back(getY(dl,zl,dlbut));
-      bbreplication.push_back(Breplication[i-1]+1);
-      bblsnap.push_back(Blsnap[i]);
-      bblred.push_back(Blred[i]);
-      bbfromsnap.push_back(Bfromsnap[i]);
-      //second
-      bblD.push_back(BlD[i]+add);
-      bblD2.push_back(BlD[i]+2.*add);
-      double dlbut2=(2.*BlD[i]+3.*add)/2.;
-      bbzsimlens.push_back(getY(dl,zl,dlbut2));
-      bbreplication.push_back(Breplication[i-1]+2);
-      bblsnap.push_back(Blsnap[i]);
-      bblred.push_back(Blred[i]);
-      bbfromsnap.push_back(Bfromsnap[i]);
-      //third
-      bblD.push_back(BlD[i]+2.*add);
-      bblD2.push_back(BlD2[i]);
-      double dlbut3=(BlD[i]+2.*add+BlD2[i])/2.;
-      bbzsimlens.push_back(getY(dl,zl,dlbut3));
-      bbreplication.push_back(Breplication[i-1]+3);
-      bblsnap.push_back(Blsnap[i]);
-      bblred.push_back(Blred[i]);
-      bbfromsnap.push_back(Bfromsnap[i]);
-    }
-    else if((delta+delta1)/2.<=boxl && Bfromsnap[i]==Bfromsnap[i+1] ){ //set equal delta
+    //set equal delta
+    if((delta+delta1)/2.<=boxl && Bfromsnap[i]==Bfromsnap[i+1] ){ 
       //firts half
       bblD.push_back(BlD[i]);
       bblD2.push_back((BlD[i]+BlD2[i+1])/2.);
@@ -412,42 +386,76 @@ int main(int argc, char** argv){
       bblred.push_back(Blred[i]);
       bbfromsnap.push_back(Bfromsnap[i]);
       i=i+1;
-    }
-    else{
-      bbfromsnap.push_back(Bfromsnap[i]);
-      bblD.push_back(BlD[i]);
-      bblD2.push_back(BlD2[i]);
-      bbzsimlens.push_back(Bzsimlens[i]);
-      bbreplication.push_back(Breplication[i]);
-      bblsnap.push_back(Blsnap[i]);
-      bblred.push_back(Blred[i]);
-      }
+    }    
   }
-    
+
   // merge planes if they are too small
   for (auto i=0;i<bblred.size();i++){ 
     float delta=bblD2[i]-bblD[i];
     float delta1=bblD2[i+1]-bblD[i+1];
     if(delta+delta1<=boxl && bbfromsnap[i]==bbfromsnap[i+1] ){
-      bfromsnap.push_back(bbfromsnap[i]);
-      blD.push_back(bblD[i]);
-      blD2.push_back(bblD2[i+1]);
+      bbbfromsnap.push_back(bbfromsnap[i]);
+      bbblD.push_back(bblD[i]);
+      bbblD2.push_back(bblD2[i+1]);
       double dlbut=(bblD[i]+bblD2[i+1])/2.;
-      bzsimlens.push_back(getY(dl,zl,dlbut));
-      breplication.push_back(bbreplication[i]+1);
-      blsnap.push_back(bblsnap[i]);
-      blred.push_back(bblred[i]);
+      bbbzsimlens.push_back(getY(dl,zl,dlbut));
+      bbbreplication.push_back(bbreplication[i]+1);
+      bbblsnap.push_back(bblsnap[i]);
+      bbblred.push_back(bblred[i]);
       i=i+1;
     }
     else{
-      bfromsnap.push_back(bbfromsnap[i]);
-      blD.push_back(bblD[i]);
-      blD2.push_back(bblD2[i]);
-      bzsimlens.push_back(bbzsimlens[i]);
-      breplication.push_back(bbreplication[i]);
-      blsnap.push_back(bblsnap[i]);
-      blred.push_back(bblred[i]);
+      bbbfromsnap.push_back(bbfromsnap[i]);
+      bbblD.push_back(bblD[i]);
+      bbblD2.push_back(bblD2[i]);
+      bbbzsimlens.push_back(bbzsimlens[i]);
+      bbbreplication.push_back(bbreplication[i]);
+      bbblsnap.push_back(bblsnap[i]);
+      bbblred.push_back(bblred[i]);
     }
+  }
+  //again
+  for (auto i=0;i<bbblred.size();i++){ 
+    float delta=bbblD2[i]-bbblD[i];
+    float delta1=bbblD2[i+1]-bbblD[i+1];
+    if(delta+delta1<=boxl && bbbfromsnap[i]==bbbfromsnap[i+1] ){
+      bfromsnap.push_back(bbbfromsnap[i]);
+      blD.push_back(bbblD[i]);
+      blD2.push_back(bbblD2[i+1]);
+      double dlbut=(bbblD[i]+bbblD2[i+1])/2.;
+      bzsimlens.push_back(getY(dl,zl,dlbut));
+      breplication.push_back(bbbreplication[i]+1);
+      blsnap.push_back(bbblsnap[i]);
+      blred.push_back(bbblred[i]);
+      i = i + 1;
+    }
+    else{
+      bfromsnap.push_back(bbbfromsnap[i]);
+      blD.push_back(bbblD[i]);
+      blD2.push_back(bbblD2[i]);
+      bzsimlens.push_back(bbbzsimlens[i]);
+      breplication.push_back(bbbreplication[i]);
+      blsnap.push_back(bbblsnap[i]);
+      blred.push_back(bbblred[i]);
+    }
+  }
+
+  //erase repeated rows
+  vector<int> er_inx(0);
+  for (auto i = 0; i < blD.size() - 1; i++) {
+    if (blD[i] == blD[i + 1] && blD2[i] != blD2[i + 1]) {
+      er_inx.push_back(i);
+    }
+  }
+
+  for (auto it = er_inx.rbegin(); it != er_inx.rend(); ++it) {
+    bfromsnap.erase(bfromsnap.begin() + *it);
+    blD.erase(blD.begin() + *it);
+    blD2.erase(blD2.begin() + *it);
+    bzsimlens.erase(bzsimlens.begin() + *it);
+    breplication.erase(breplication.begin() + *it);
+    blsnap.erase(blsnap.begin() + *it);
+    blred.erase(blred.begin() + *it);
   }
     
   Bfromsnap.clear();
@@ -494,7 +502,7 @@ int main(int argc, char** argv){
     pll.push_back(pl);    
   }
  
-  if(blD2[nsnaps-1]<Ds){
+  if(blD2[nsnaps-1]<Ds-1e-6){
     // we need to add one more snaphost
     snaplist.open(filsnaplist.c_str());
     double s;
