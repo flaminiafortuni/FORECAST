@@ -314,7 +314,9 @@ void readParameters(double *boxl, float *maglim,
     inputf >> butstr; // path where bc03 software is  located
     inputf >> *bc03dir;
     inputf >> butstr; // path where outputs are located
-    inputf >> *rdir;       
+    inputf >> *rdir;
+    inputf >> butstr; //read gas from file(=0) or from scratch(=1)
+    inputf >> *read;
     inputf >> butstr; // SSP MODEL bc03 OR cb16
     inputf >> *model;
     inputf >> butstr; // IMF of SSP chabrier or salpeter
