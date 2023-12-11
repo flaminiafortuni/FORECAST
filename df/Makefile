@@ -1,5 +1,5 @@
 # executable name 
-PROG = /node6/data/flaminia/github/df16/executable
+PROG = ./executable_df
 
 MAIN = main_df.cpp readTNGParticle.cpp SED.cpp functions.cpp
 

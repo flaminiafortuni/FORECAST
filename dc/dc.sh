@@ -23,7 +23,7 @@ do
 	   then
 
 	   echo "${x[$i-1]}" > ${x[$i-1]}.d
-	   ./exe_dc ${y[$i]} ${x[$i-1]}
+	   ./executable_dc ${y[$i]} ${x[$i-1]}
 	   echo "from bash: snap = ${y[$i]}"
   	   rm ${x[$i-1]}.d
 	fi

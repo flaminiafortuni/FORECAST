@@ -196,7 +196,7 @@ int main(int argc, char** argv){
     listfilter.close();
   }  		 
   else{
-    cout << " filter list file " << filfilters << "does not " << endl;   
+    cout << " filter list file " << filfilters << " does not " << endl;   
     cout << " exist in the Code dir ... check this out      " << endl;
     cout << "    I will STOP here !!! " << endl;
     exit(1);
