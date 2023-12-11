@@ -317,10 +317,10 @@ void readParameters(double *boxl, float *maglim,
     inputf >> *rdir;
     inputf >> butstr; //read gas from file(=0) or from scratch(=1)
     inputf >> *read;
-    inputf >> butstr; // SSP MODEL bc03 OR cb16
-    inputf >> *model;
     inputf >> butstr; // IMF of SSP chabrier or salpeter
     inputf >> *imf;
+    inputf >> butstr; // SSP MODEL bc03 OR cb16
+    inputf >> *model;
     inputf.close();
   }else{
     cout << " INPUT file does not exsit ... I will stop here!!! " << endl;
