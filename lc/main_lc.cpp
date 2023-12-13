@@ -101,12 +101,15 @@ int main(int argc, char** argv){
   string pathsnap, rdir;
   // ... seeds for randomization of the simulation box
   long seedcenter, seedface, seedsign;
+  // ... sim
+  string sim;
 
   readParameters(&boxl,&zs,&fov,&res,
 		 &filredshiftlist,&filsnaplist,&filtimelist,&idc,
 		 &pathsnap,&rdir,
-		 &seedcenter,&seedface,&seedsign);
+		 &seedcenter,&seedface,&seedsign,&sim);
 
+  
   //pixels of the image
   int truenpix=int(fov*3600/res);
   int bufferpix=int(ceil((truenpix + 1)*20 / 14142));  // add bufferpix/2 in each side!
@@ -337,8 +340,8 @@ int main(int argc, char** argv){
   cout << " " << endl;
   cout << " nsnaps (including replications) = " << nsnaps << endl;
   cout << " " << endl;
- 
-  for (auto i = 0; i < Blred.size(); i++) {
+
+   for (auto i = 0; i < Blred.size(); i++) {
     float delta = BlD2[i] - BlD[i];
     float delta1=BlD2[i+1]-BlD[i+1];
     int n = static_cast<int>(std::ceil(delta / boxl));
@@ -348,7 +351,7 @@ int main(int argc, char** argv){
         for (int k = 1; k <= n; k++) {
             bblD.push_back(BlD[i] + (k - 1) * add);
             bblD2.push_back(BlD[i] + k * add);
-            double dlbut =BlD[i] + (2 * k - 1) * 0.5 * add;
+            double dlbut =BlD[i] + (2 * k - 1) * 0.5 * add;// bblD.back() + (k - 0.5) * add;
             bbzsimlens.push_back(getY(dl, zl, dlbut));
             bbreplication.push_back(Breplication[i - 1] + k);
             bblsnap.push_back(Blsnap[i]);
@@ -365,8 +368,8 @@ int main(int argc, char** argv){
         bblred.push_back(Blred[i]);
         bbfromsnap.push_back(Bfromsnap[i]);
     }
-    //set equal delta
-    if((delta+delta1)/2.<=boxl && Bfromsnap[i]==Bfromsnap[i+1] ){ 
+    
+    if((delta+delta1)/2.<=boxl && Bfromsnap[i]==Bfromsnap[i+1] ){ //set equal delta
       //firts half
       bblD.push_back(BlD[i]);
       bblD2.push_back((BlD[i]+BlD2[i+1])/2.);
@@ -386,9 +389,11 @@ int main(int argc, char** argv){
       bblred.push_back(Blred[i]);
       bbfromsnap.push_back(Bfromsnap[i]);
       i=i+1;
-    }    
+    }
+    
+    
   }
-
+  
   // merge planes if they are too small
   for (auto i=0;i<bblred.size();i++){ 
     float delta=bblD2[i]-bblD[i];
@@ -446,6 +451,9 @@ int main(int argc, char** argv){
     if (blD[i] == blD[i + 1] && blD2[i] != blD2[i + 1]) {
       er_inx.push_back(i);
     }
+    else if (blD[i] == blD[i + 1] && blD2[i] != blD2[i + 1]) { //INTERROTTO QUI
+      er_inx.push_back(i);
+    }
   }
 
   for (auto it = er_inx.rbegin(); it != er_inx.rend(); ++it) {
@@ -498,10 +506,12 @@ int main(int argc, char** argv){
   for(int i=0;i<nsnaps;i++){
     breplication.push_back(i);      
     pl++;
-    planelist <<  pl << "   " <<  bzsimlens[i] << "   " << blD[i] << "   " << blD2[i] << "   " <<  breplication[i] << "   " << bfromsnap[i] << "   " << blred[i] << std:: endl;    
+    planelist <<  pl << "   " <<  bzsimlens[i] << "   " << blD[i] << "   " << blD2[i] << "   " <<  breplication[i] << "   " << bfromsnap[i] << "   " << blred[i] << std:: endl;
     pll.push_back(pl);    
   }
- 
+
+  
+  
   if(blD2[nsnaps-1]<Ds-1e-6){
     // we need to add one more snaphost
     snaplist.open(filsnaplist.c_str());

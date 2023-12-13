@@ -138,7 +138,8 @@ int countHDF5Files(const std::string& path, const std::string& extension) {
 void readParameters(double *boxl,double *zs, double *fov,double *res,
 		    string *filredshiftlist,string *filsnaplist, string *filtimelist, string *idc,
 		    string *pathsnap, string *rdir, 
-		    long *seedcenter, long *seedface, long *seedsign){ 
+		    long *seedcenter, long *seedface, long *seedsign,
+		    string *sim){ 
 
   string butstr;
   ifstream inputf;
@@ -169,11 +170,12 @@ void readParameters(double *boxl,double *zs, double *fov,double *res,
     inputf >> butstr; // seed for the random selection of the dice face
     inputf >> *seedface;
     inputf >> butstr; // seed for the selection of the sign of the coordinates
-    inputf >> *seedsign;  
+    inputf >> *seedsign;
+    inputf >> butstr; // simulation
+    inputf >> *sim;
     inputf.close();
   }else{
     cout << " INPUT file does not exist ... I will stop here!!! " << endl;
     exit(1);
   }
 };
-

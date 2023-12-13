@@ -58,5 +58,4 @@ std::vector<T> m_col_add(std::vector<std::vector<T>> const& mat) {
 void readParameters(double *, double *, double *,double *, 
                     string *,string *,string *,string *,
                     string *, string *,
-                    long *, long *, long *);
-
+                    long *, long *, long *, string *);
