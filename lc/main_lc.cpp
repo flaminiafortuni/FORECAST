@@ -1063,7 +1063,7 @@ int main(int argc, char** argv){
     cout << endl;
     
     // write particles in fov on a txt file:
-    string coord_path_="coords.lc."+snappl+"_"+conv(iplrestart,fINT)+".txt";
+    string coord_path_=rdir+"coords.lc."+snappl+"_"+conv(iplrestart,fINT)+".txt";
     ofstream myfile2_;
     myfile2_.open(coord_path_);
     for (int i=0;i<totPartxy4; i++){
