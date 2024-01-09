@@ -512,7 +512,6 @@ void SEDbc03_interp_2spec(std::vector <vector<double> > &full_table, std::vector
   
   else if (ages4>0. & ages4<20.){
     if ((ages4<=time_grid[a_indx]) & (ages4>time_grid[a_indx-1])){
-      cout << "cae i-1 and i" << endl;
       t_1 = time_grid[a_indx];
       t_2 = time_grid[a_indx-1];
       a_1 = (ages4-t_2)/(t_1-t_2);
@@ -521,7 +520,6 @@ void SEDbc03_interp_2spec(std::vector <vector<double> > &full_table, std::vector
       f_2 = full_table[a_indx-1];
     }
     else if ((ages4<time_grid[a_indx+1]) & (ages4>=time_grid[a_indx])){
-      cout << "case i and i+1" << endl;
       t_1 = time_grid[a_indx+1];
       t_2 = time_grid[a_indx];
       a_1 = (ages4-t_2)/(t_1-t_2);
