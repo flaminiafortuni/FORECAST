@@ -30,7 +30,8 @@ It requires the following C/C++ standard libraries:
 * [Armadillo](http://arma.sourceforge.net/)
 * [H5Cpp](http://h5cpp.org/)
 * [HDF5 C++](https://www.hdfgroup.org/)
-* gcc compiler.  
+* gcc compiler
+* [bc03](https://www.bruzual.org/bc03/Original_version_2003/) or [cb16](flaminia.fortuni at inaf.it) SSP models.  
 
 ## How to install and run
 - Download the code with the "Code" green button on this page, or clone it with `git clone https://github.com/flaminiafortuni/FORECAST`
