@@ -130,7 +130,7 @@ std::string FileStructIterator::getNext() {
     switch (m_state) {
     case STATE_START:
         m_state = STATE_LOOP1;
-        if (m_filename.find("cb2016") != std::string::npos) {
+        if (m_filename.find("cb2016") != std::string::npos or m_filename.find("bc2003") != std::string::npos) {
             m_badLineNumber = 5;
         } else {
             m_badLineNumber = 6;
