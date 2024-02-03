@@ -133,7 +133,7 @@ int main(int argc, char** argv){
   cout << "... Reading filter list ..." << endl;
 
   // read filter list
-  string filfilters="../"+module+"/filters.dat";
+  string filfilters="../../"+module+"/filters.dat";
   ifstream listfilter;
   listfilter.open(filfilters.c_str());
   vector <string> nfilter;
@@ -171,7 +171,7 @@ int main(int argc, char** argv){
     cout << endl;
     
     // reading input catalogue (dust-corrected or dc+igm-correctedfluxes)
-    string filoutcat="../"+module+"/flux."+module+"."+snappl+"_"+plane+".txt";         
+    string filoutcat="../../"+module+"/flux."+module+"."+snappl+"_"+plane+".txt";         
     ifstream ocf;
     ocf.open(filoutcat.c_str());  
     if(ocf.is_open()){
@@ -215,7 +215,7 @@ int main(int argc, char** argv){
     cout << endl;
     
     // reading df output catalogue (dust-free fluxes)
-    string filoutcat="../"+module+"/flux."+module+"."+snappl+"_"+plane+".txt";
+    string filoutcat="../../"+module+"/flux."+module+"."+snappl+"_"+plane+".txt";
     ifstream ocf;
     ocf.open(filoutcat.c_str());
     if(ocf.is_open()){
