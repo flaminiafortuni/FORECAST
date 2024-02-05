@@ -55,12 +55,11 @@ final_file = INPUT_PATH+'final_cat.'+MODULE+ADD+'.dat'
 with open(final_file, 'w') as outfile:
     for fname in filenames:
         with open(fname) as infile:
+            content = infile.read()
+            lines = content.split('\n')            
             if write_header:
-                header = next(infile)
-                outfile.write(header)
-                write_header = False
-            else:
-                next(infile)
-            outfile.write(infile.read())
+                outfile.write(lines[0] + '\n')
+                write_header = False        
+            outfile.write('\n'.join(lines[1:]) + '\n')
 
-print("\n FINAL GALAXY CATALOG WRITTEN", final_file)
+print("FINAL GALAXY CATALOG WRITTEN", final_file)
