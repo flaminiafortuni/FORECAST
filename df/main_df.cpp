@@ -351,9 +351,9 @@ int main(int argc, char** argv){
   ifstream ocf;
   ocf.open(filoutcat.c_str());
   if(ocf.is_open()){
-    int shid,idsi, NPTNG;
+    int shid,idsi;
     float xi,yi,zi,zri,mi,imi,ai,disttmp, sni, fiubb, cmzsh;
-    long double meti, mabi;
+    long double meti, mabi, NPTNG;
     while(ocf >> shid >> xi >> yi  >> zri >> mi >> imi >> meti >> fiubb >> ai >> zi >> cmzsh >>  NPTNG ){
       if (shid>-1){
 	idshs.push_back(shid);
@@ -367,7 +367,7 @@ int main(int argc, char** argv){
 	ages4.push_back(ai);     
 	fiub.push_back(fiubb);
 	CMzsh.push_back(cmzsh);
-	NpshTNG.push_back(NPTNG);
+	NpshTNG.push_back(static_cast<double>(NPTNG));
       }  
     }
       ocf.close();

@@ -344,9 +344,9 @@ int main (int argc, char** argv){
   ifstream ocf;
   ocf.open(filoutcat.c_str());
   if(ocf.is_open()){
-    int shid, NPTNG;
+    int shid;
     float xi,yi,zi,zri,mi,imi,ai,fi, sni, cmzsh;
-    long double meti, mabi;
+    long double meti, mabi, NPTNG;
     while (ocf >> shid >> xi >> yi  >> zri >> mi >> imi >> meti >> cmzsh >> ai >> NPTNG) { 
     idshsmap.push_back(shid);
     xmap.push_back(xi);
@@ -357,7 +357,7 @@ int main (int argc, char** argv){
     mets4map.push_back(meti);
     ages4map.push_back(ai);
     cmzshmap.push_back(cmzsh);        
-    NpshTNG.push_back(NPTNG);
+    NpshTNG.push_back(static_cast<double>(NPTNG));
     std::vector<double> temp_flux;
     double temp_val;
     int cf = 0;
