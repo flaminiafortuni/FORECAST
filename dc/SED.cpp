@@ -358,7 +358,7 @@ void SED::modelC( float zr, std::vector <long double> &ex_curve,std::vector <lon
   for ( auto &item : ex_ls ) item *= 1.+zr;
 
   // taua= pow((1.+zr),-0.5)*NHImean; //this was the previous z-scaling, consistnt with Fortuni+23
-  taua= 2.*pow(zr,-1.95)*NHImean;
+  taua= pow(1+zr,-1.95)*NHImean;
 
   
   //albedo: Omega_lambda in Calzetti+94
