@@ -209,10 +209,18 @@ for i,j in zip(snap,pl):
     g['Rmax']=h2['Rmax']
     g['count'] = g['id'].map(df['id'].value_counts())
     g['av_zr'] = g['zr']*1./g['count']
-    g['NPsh'] = (g['Npsh'] / g['count']).astype(int)
     g['NPTNG'] = (g['NpTNG'] / g['count']).astype(int)
-    g['Zhi'] = g['ZHI']*1. / g['count']
-    g['Nhi'] = g['NHI']*1. / g['count']
+    if(MODULE == 'dc' or MODULE == 'igm'):
+        g['NPsh'] = (g['Npsh'] / g['count']).astype(int)
+        g['Zhi'] = g['ZHI']*1. / g['count']
+	g['Nhi'] = g['NHI']*1. / g['count']
+    elif(MODULE=='df'):
+        g['NPsh'] = g['count']
+        g['Zhi'] = 0.
+	g['Nhi'] = 0.
+
+    
+
     
 
     for i in range(nfilters):
