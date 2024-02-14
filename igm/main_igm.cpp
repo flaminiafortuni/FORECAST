@@ -301,9 +301,9 @@ int main (int argc, char** argv){
   ifstream ocf;
   ocf.open(filoutcat.c_str());  
   if(ocf.is_open()){
-    int shid,npsh,npshtng;
+    int shid,npsh;
     float xi,yi,zi,zri,mi,imi,ai,Zmi, NHImi;
-    long double meti;
+    long double meti, npshtng;
     while (ocf >> shid >> xi >> yi  >> zri >> mi >> imi >> meti >> ai >>  Zmi >> NHImi >> npsh >> npshtng) { 
     idshsmap.push_back(shid);
     xmap.push_back(xi);
@@ -316,7 +316,7 @@ int main (int argc, char** argv){
     NHImap.push_back(NHImi);
     Zmap.push_back(Zmi);
     Npshmap.push_back(npsh);
-    NpshTNGmap.push_back(npshtng);
+    NpshTNGmap.push_back(static_cast<int>(npshtng);
     std::vector<double> temp_flux;
     double temp_val;
     int cf = 0;

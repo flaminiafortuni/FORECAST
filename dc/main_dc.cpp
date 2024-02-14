@@ -357,7 +357,7 @@ int main (int argc, char** argv){
     mets4map.push_back(meti);
     ages4map.push_back(ai);
     cmzshmap.push_back(cmzsh);        
-    NpshTNG.push_back(static_cast<double>(NPTNG));
+    NpshTNG.push_back(static_cast<int>(NPTNG));
     std::vector<double> temp_flux;
     double temp_val;
     int cf = 0;

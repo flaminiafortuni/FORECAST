@@ -367,7 +367,7 @@ int main(int argc, char** argv){
 	ages4.push_back(ai);     
 	fiub.push_back(fiubb);
 	CMzsh.push_back(cmzsh);
-	NpshTNG.push_back(static_cast<double>(NPTNG));
+	NpshTNG.push_back(static_cast<int>(NPTNG));
       }  
     }
       ocf.close();
