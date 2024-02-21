@@ -494,14 +494,14 @@ void SEDbc03_interp_2spec(std::vector <vector<double> > &full_table, std::vector
 
   if(ages4<=0.){
     for (int i=0; i<1221; i++){
-      spe.push_back(full_table[0][i]);//*ergsa);
+      spe.push_back(full_table[0][i]*ergsa);
     }
   }
   
 
   else if(ages4>=20.){
     for (int i=0; i<1221; i++){
-      spe.push_back(full_table[220][i]);//*ergsa);
+      spe.push_back(full_table[220][i]*ergsa);
     }
   }
   
@@ -527,7 +527,7 @@ void SEDbc03_interp_2spec(std::vector <vector<double> > &full_table, std::vector
     }
     
     for (int i=0; i<1221; i++){
-      spe.push_back((a_1*f_1[i])+ (a_2*f_2[i]));//*ergsa)) su entrambi;
+      spe.push_back((a_1*f_1[i]*ergsa)+ (a_2*f_2[i]*ergsa));
     }
   }
   

@@ -1022,7 +1022,7 @@ int main(int argc, char** argv){
     }	  
    
     // counting number of particles in each SH from TNG cat
-    std::vector<int> NpTNG(0);
+    std::vector<int> NpTNG;
     for (int i = 0; i < idsh.size(); i++) {
       int countshTNG=0;
       for (auto l=0;l<idSH4.size();l++){
@@ -1033,7 +1033,7 @@ int main(int argc, char** argv){
       NpTNG.push_back(countshTNG);
     }
 
-    vector<double> CMzsh(0), NpshTNG;
+    vector<double> CMzsh, NpshTNG;
     for (auto k=0;k<idsh.size();k++){
       for(auto l=0;l<idshs.size();l++){
 	if (idshs[l]==idsh[k]){
