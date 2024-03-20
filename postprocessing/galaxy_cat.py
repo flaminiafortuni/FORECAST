@@ -189,7 +189,7 @@ for i,j in zip(snap,pl):
         sumcols = ['m', 'zr', 'Npsh', 'NpTNG', 'ZHI', 'NHI'] + [f'f{i}' for i in range(nfilters)] + [f'R_hl{i}' for i in range(nfilters)] + [f'half_flux{i}' for i in range(nfilters)]
 
     elif(MODULE == 'df'):
-        sumcols = ['m', 'zr', 'NpTNG'] + [f'f{i}' for i in range(nfilters)] + [f'R_hl{i}' for i in range(nfilters)] + + [f'half_flux{i}' for i in range(nfilters)]
+        sumcols = ['m', 'zr', 'NpTNG'] + [f'f{i}' for i in range(nfilters)] + [f'R_hl{i}' for i in range(nfilters)] + [f'half_flux{i}' for i in range(nfilters)]
         
     g = df.groupby(['id'])[sumcols].sum().reset_index()
     
@@ -211,18 +211,14 @@ for i,j in zip(snap,pl):
     g['av_zr'] = g['zr']*1./g['count']
     g['NPTNG'] = (g['NpTNG'] / g['count']).astype(int)
     if(MODULE == 'dc' or MODULE == 'igm'):
-        g['NPsh'] = (g['Npsh'] / g['count']).astype(int)
+	g['NPsh'] = (g['Npsh'] / g['count']).astype(int)
         g['Zhi'] = g['ZHI']*1. / g['count']
 	g['Nhi'] = g['NHI']*1. / g['count']
     elif(MODULE=='df'):
-        g['NPsh'] = g['count']
-        g['Zhi'] = 0.
+	g['NPsh'] = g['count']
+	g['Zhi'] = 0.
 	g['Nhi'] = 0.
-
-    
-
-    
-
+	    
     for i in range(nfilters):
         g[f'r_hlf{i}'] = g[f'R_hl{i}'] / g['count']
         g[f'hlf{i}'] = g[f'half_flux{i}'] / g['count']
