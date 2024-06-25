@@ -302,34 +302,35 @@ int main (int argc, char** argv){
   ocf.open(filoutcat.c_str());  
   if(ocf.is_open()){
     int shid,npsh;
-    float xi,yi,zi,zri,mi,imi,ai,Zmi, NHImi;
+    float xi,yi,zi,zri,mi,imi,ai,Zmi;
     long double meti, npshtng;
+    double NHImi;
     while (ocf >> shid >> xi >> yi  >> zri >> mi >> imi >> meti >> ai >>  Zmi >> NHImi >> npsh >> npshtng) { 
-    idshsmap.push_back(shid);
-    xmap.push_back(xi);
-    ymap.push_back(yi);
-    zredsmap.push_back(zri);
-    ms4map.push_back(mi);      
-    ims4map.push_back(imi);
-    mets4map.push_back(meti);
-    ages4map.push_back(ai);
-    NHImap.push_back(NHImi);
-    Zmap.push_back(Zmi);
-    Npshmap.push_back(npsh);
-    NpshTNGmap.push_back(static_cast<int>(npshtng);
-    std::vector<double> temp_flux;
-    double temp_val;
-    int cf = 0;
-    while (cf < Nfilters) {
+      idshsmap.push_back(shid);
+      xmap.push_back(xi);
+      ymap.push_back(yi);
+      zredsmap.push_back(zri);
+      ms4map.push_back(mi);      
+      ims4map.push_back(imi);
+      mets4map.push_back(meti);
+      ages4map.push_back(ai);
+      NHImap.push_back(NHImi);
+      Zmap.push_back(Zmi);
+      Npshmap.push_back(npsh);
+      NpshTNGmap.push_back(static_cast<int>(npshtng));
+      std::vector<double> temp_flux;
+      double temp_val;
+      int cf = 0;
+      while (cf < Nfilters) {
         if (ocf >> temp_val) {
-            temp_flux.push_back(temp_val);
-            cf += 1;
+	  temp_flux.push_back(temp_val);
+	  cf += 1;
         } else {
-            break;
+	  break;
         }
-    }
-    fluxmap.push_back(temp_flux);
-    ocf.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      }
+      fluxmap.push_back(temp_flux);
+      ocf.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }    
     ocf.close();
   }
