@@ -550,7 +550,7 @@ void SEDcb16_extract_spec(std::vector <vector<double> > &full_table, std::vector
 
 
 // grid points distribution function without kernel - sum in single pixel
-valarray<float> gridist_nok(vector<float> x, vector<float> y, vector<float> q,  int nn){
+valarray<float> gridist_nok(vector<float> x, vector<float> y, vector<float> q,  unsigned long int nn){
   std::valarray<float> grxy( nn*nn );  
   int n0 = x.size();
  
@@ -593,8 +593,8 @@ valarray<float> ncounts(vector<float> x, vector<float> y,  int nn){
 }
 
 //rescale map
-valarray<float> rescalemap(std::valarray<float> mapin,int npixin,int npixout){
-  int extrapixside = (npixin-npixout)/2;
+valarray<float> rescalemap(std::valarray<float> mapin, unsigned long int npixin, unsigned long int npixout){
+  unsigned long int extrapixside = (npixin-npixout)/2;
   valarray<float> newmap(npixout*npixout);
   for(int j=0;j<npixout;j++){
     int jj=j+extrapixside;

@@ -116,6 +116,6 @@ void SEDbc03_interp_2spec(std::vector<std::vector<double> > &full_table, std::ve
 void SEDcb16_extract_spec(std::vector<std::vector<double> > &full_table, std::vector<double> &time_grid, int a_indx, float ages4, std::vector<long double> &spe);
 
 //make image functions
-valarray<float> gridist_nok(vector<float>, vector<float>, vector<float>,  int);
+valarray<float> gridist_nok(vector<float>, vector<float>, vector<float>,  unsigned long int);
 valarray<float> ncounts(vector<float>, vector<float>, int);
-valarray<float> rescalemap(std::valarray<float>,int,int);
+valarray<float> rescalemap(std::valarray<float>,unsigned long int,unsigned long int);

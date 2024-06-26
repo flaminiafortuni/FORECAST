@@ -120,9 +120,9 @@ int main(int argc, char** argv){
 		 &rdir);
   
   //pixels of the image
-  int truenpix=int(fov*3600/res);
+  unsigned long int truenpix=int(fov*3600/res);
   int bufferpix=int(ceil((truenpix + 1)*20 / 14142));  // add bufferpix/2 in each side!
-  int npix=truenpix+bufferpix;
+  unsigned long int npix=truenpix+bufferpix;
 
   cout << "N. pixels: " << truenpix << "; buffer pixels: " << bufferpix << endl;
   cout << endl;
