@@ -176,7 +176,8 @@ int main(int argc, char** argv){
     ocf.open(filoutcat.c_str());  
     if(ocf.is_open()){
       int shid,npsh,npshtng;
-      float xi,yi,zi,zri,mi,imi,ai,Zmi, NHImi;
+      float xi,yi,zi,zri,mi,imi,ai,Zmi;
+      double NHImi;
       long double meti;
       while (ocf >> shid >> xi >> yi  >> zri >> mi >> imi >> meti >> ai >>  Zmi >> NHImi >> npsh >> npshtng) {
 	idshs.push_back(shid);
