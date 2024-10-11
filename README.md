@@ -26,7 +26,7 @@ It requires the following C/C++ standard libraries:
 * [CCfits](https://heasarc.gsfc.nasa.gov/fitsio/CCfits/)
 * [CFITSIO](https://heasarc.gsfc.nasa.gov/fitsio/)
 * [FFTW](https://www.fftw.org/)
-* [Eigen](https://eigen.tuxfamily.org/)
+* [Eigen](https://gitlab.com/libeigen/eigen)
 * [Armadillo](http://arma.sourceforge.net/)
 * [H5Cpp](http://h5cpp.org/)
 * [HDF5 C++](https://www.hdfgroup.org/)
